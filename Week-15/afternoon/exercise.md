@@ -186,12 +186,14 @@ Extend the project to load different messages based on the environment variables
      <summary>Click to reveal the solution</summary>
 
      ```typescript
-    export const customMessage = process.env.CUSTOM_MESSAGE || 'Default message';
+     import { customMessage } from './config';
+
+     export const getHelloMessage = (): string => {
+      return customMessage;
+     };
+
      ```
-
-     **Explanation:**  
-     - This line exports a constant named `customMessage` which gets its value from the environment variable `CUSTOM_MESSAGE`. If `CUSTOM_MESSAGE` is not defined, it defaults to 'Default message'. This allows you to customize the message shown by your server based on the environment it's running in.
-
+     
    </details>
 
 
