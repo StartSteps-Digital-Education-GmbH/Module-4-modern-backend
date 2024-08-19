@@ -6,11 +6,11 @@ These exercises will guide you through creating a simple web server using Node.j
 The exercises for the rest of the week, will build on top of today's exercises! :)
 
 
-## Best Practices
+## Best Practices - Explanation
 
 In traditional Node.js development, modules are loaded using the `require` function, and the server is created using the `http.createServer()` method. However, when working with TypeScript, the `import` syntax is used instead of `require`. This is part of modern JavaScript (ES6+) and provides better module management and type safety.
 
-Here's how the concepts from the slides map to TypeScript:
+Here's how the concepts from the slides map to TypeScript - **This is not an exercise yet, just an explanation**:
 
 1. **Import Required Modules:**
    - Instead of using `require`, you use `import`:
