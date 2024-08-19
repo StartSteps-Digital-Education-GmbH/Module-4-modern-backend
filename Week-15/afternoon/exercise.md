@@ -104,7 +104,7 @@ Set up a simple Node.js project with TypeScript and environment variables.
     }).listen(port, () => console.log(`Server is running on port ${port}`));
     ```
 
-10. **Run the server and observe the output in your terminal.**
+10. **Now, it's time to run your server and see it in action!**
 
    **Explanation:**
    - **What Happens When You Run the Server:** Running the server means that Node.js will start executing your `index.ts` file. The `http.createServer()` function will create an HTTP server that listens for incoming requests on the specified port. Once the server is running, it will keep running until you stop it manually. You can test the server by opening a web browser and navigating to `http://localhost:<PORT>`, where `<PORT>` is the port number defined in your `.env` file.
@@ -124,6 +124,12 @@ Set up a simple Node.js project with TypeScript and environment variables.
         ```
         This command tells Node.js to execute the compiled `index.js` file.
 
+        You should see a log message in your terminal that says something like:
+       ```
+       Server is running on port 3000
+       ```
+       This message confirms that your server has started successfully.
+
      3. **Optional:** If you want to simplify running your server in the future, you can add a `start` script to your `package.json` file:
         - Open your `package.json` file and add the following under `"scripts"`:
           ```json
@@ -138,7 +144,8 @@ Set up a simple Node.js project with TypeScript and environment variables.
 
         This step is optional, but it can make running your server easier in future projects.
 
-   - **Observing the Output:** After starting the server, you should see the log message in your terminal indicating that the server is running. The message will be timestamped if you've implemented the custom logger correctly.
+   - **Test the Server:**  
+       Open your web browser and navigate to `http://localhost:3000` (or the port number you set). You should see the message "Server is running!" displayed in your browser.
 
 
 Done? Perfect! You should now have a basic TypeScript project set up with a simple server running on the specified port. :sparkles:
@@ -237,7 +244,16 @@ Extend the project to load different messages based on the environment variables
 4. Run the server again and check the output in your terminal.
 
    **Explanation:**  
-   To run the server again, you can use the command `npm run start` or `node dist/index.js` (assuming you've compiled the TypeScript to JavaScript). This will start the server on the port defined in your `.env` file. Running the server again means stopping any previous instance of the server and starting it anew with the updated code.
+  - Since the server loads environment variables when it starts, you need to restart the server to see the updated customMessage in action. After updating helpers.ts, recompile your TypeScript files and restart the server:
+      ```bash
+      npx tsc
+      node dist/index.js
+         ```
+   - Open your browser and navigate to http://localhost:3000 to see the custom message defined in your .env file displayed by the server.
+   - 
+
+**Outcome:** This exercise shows how you can use environment variables to control application behavior dynamically, a common practice in real-world development. :computer:
+
 
 ---
 
@@ -292,4 +308,20 @@ Add a custom logger function to log server messages neatly.
      **Explanation:**  
      - This updates the server's logging mechanism to use the custom logger function, which will output a timestamped message whenever the server starts. This makes the logs more informative and consistent.
    </details>
+
+4. **Run the server again to see the improved logging in your terminal.**
+
+   ### Explanation:
+   - Since you've modified the code to include a custom logger, you'll need to recompile the TypeScript files to JavaScript by running:
+     ```bash
+     npx tsc
+     ```
+   - After compiling, start the server again with:
+     ```bash
+     node dist/index.js
+     ```
+   - In your terminal, you should now see the log message with a timestamp indicating that the server is running, meaning you implemented the custom logger correctly
+
+   **Note:**  
+   - Running the server after making changes allows you to see the effects of your updates in real-time. In this case, you should see the new timestamped log messages in your terminal, confirming that the custom logger is working correctly.
 
