@@ -1,6 +1,6 @@
 import http from 'http';
 import { port } from './config';
-//import { getHelloMessage } from './helpers';  // Import the helper function
+//import { getHelloMessage } from './helpers';  
 import { logServerMessage } from './logger';
 
 http.createServer((req, res) => {
