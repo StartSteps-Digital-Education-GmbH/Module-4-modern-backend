@@ -3,14 +3,14 @@
 Backend development using modern technologies and practices, focusing on Node.js, Express.js, and real-time applications.
 
 ### Key Topics:
-● Introduction to TS Backend and NodeJS
-● Building RESTful APIs and Advanced Routing
-● Real-Time Chat Application Development with WebSockets
-● GraphQL Basics and Advanced Features
-● Connecting Frontend with Backend (Next.js and Node.js)
-● Microservices Architecture: Introduction, Implementation, and Interaction
-● SQL and NoSQL Databases: PostgreSQL, MongoDB
-● Database-Backed Microservices Project
+- Introduction to TS Backend and NodeJS
+- Building RESTful APIs and Advanced Routing
+- Real-Time Chat Application Development with WebSockets
+- GraphQL Basics and Advanced Features
+- Connecting Frontend with Backend (Next.js and Node.js)
+- Microservices Architecture: Introduction, Implementation, and Interaction
+- SQL and NoSQL Databases: PostgreSQL, MongoDB
+- Database-Backed Microservices Project
 
 ### Final Project:
 **Title**: "Real-Time Task Manager: A Full-Stack Microservices Project"
