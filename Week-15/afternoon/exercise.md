@@ -106,7 +106,7 @@ Set up a simple Node.js project with TypeScript and environment variables.
 
 10. **Run the server and observe the output in your terminal.**
 
-   ### Explanation:
+   **Explanation:**
    - **What Happens When You Run the Server:** Running the server means that Node.js will start executing your `index.ts` file. The `http.createServer()` function will create an HTTP server that listens for incoming requests on the specified port. Once the server is running, it will keep running until you stop it manually. You can test the server by opening a web browser and navigating to `http://localhost:<PORT>`, where `<PORT>` is the port number defined in your `.env` file.
 
    - **Compiling TypeScript to JavaScript:** TypeScript is a superset of JavaScript that includes type annotations and other features that help developers write safer and more maintainable code. However, browsers and Node.js can't execute TypeScript directly; they only understand JavaScript. This is why we need to compile TypeScript into JavaScript. When you run the TypeScript compiler (`npx tsc`), it converts your `.ts` files into `.js` files that can be executed by Node.js.
