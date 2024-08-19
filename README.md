@@ -19,6 +19,7 @@ Node.js, Express.js, and WebSockets for the backend, with a Next.js frontend. Th
 project will integrate microservices architecture, RESTful APIs, real-time
 communication, and database interactions, providing a comprehensive full-stack
 development experience.
+
 **Duration:** 4 days
 
 ## Example Repository Structure
