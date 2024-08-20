@@ -130,11 +130,11 @@ Create API routes to get, add, update, and delete students.
 
 ### Learning Explanation:
 
-**What is an API Route?**
+#### What is an API Route?
 
 An API route is a defined endpoint in your application that responds to HTTP requests. When a client (like a web browser or a tool like Postman) makes a request to this endpoint, the server processes the request and returns a response. Each API route typically corresponds to a specific operation, such as retrieving data (GET), creating new data (POST), updating existing data (PUT), or deleting data (DELETE).
 
-**Understanding the Syntax to Create an API Route in Express:**
+#### Understanding the Syntax to Create an API Route in Express:
 
 In Express.js, you create an API route using methods like `app.get()`, `app.post()`, `app.put()`, and `app.delete()`. Here’s a basic breakdown of the syntax:
 
@@ -163,7 +163,8 @@ app.get('/api/students', (req, res) => {
 - `res.json(students)`: Sends the `students` array as a JSON response to the client.
 
 
-**Common Practices for Defining API Routes**
+#### Common Practices for Defining API Routes
+
 It depends on the size and complexity of the project:
 
 1. **Defining Routes in `index.ts`:**
