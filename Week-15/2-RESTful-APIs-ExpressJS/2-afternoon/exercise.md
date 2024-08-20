@@ -163,6 +163,20 @@ app.get('/api/students', (req, res) => {
 - `res.json(students)`: Sends the `students` array as a JSON response to the client.
 
 
+**Common Practices for Defining API Routes**
+It depends on the size and complexity of the project:
+
+1. **Defining Routes in `index.ts`:**
+   - **When:** This approach is most common for smaller projects or when the application only has a few routes. By defining the routes directly in the main server file (such as `index.ts`), everything is kept in one place.
+   - **Advantages:** Simple, easy to understand, and involves minimal setup. All your routes and server configurations are in the same file.
+
+2. **Organizing Routes in Separate Files (Routing Modules):**
+   - **When:** This approach is typically used in larger projects where the number of routes grows and it becomes important to keep the main server file clean and manageable. Routes are organized into separate files or modules, often grouped by feature or functionality.
+   - **Advantages:** Better organization, especially as the project scales. By separating routes into their own files, it becomes easier to manage and navigate your codebase. Promotes reusability and maintainability as different parts of the application can be developed and updated independently.
+
+**Recommended for now:** For simplicity I would recommend organizing your api routes in `index.ts`.
+
+---
 ### Instructions:
 ---
 1. **Create a GET Endpoint to Fetch a Specific Student:**
