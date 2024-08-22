@@ -1,7 +1,5 @@
-import http from "http"
-// let http = require("http"); //import
 import dotenv from "dotenv";
-import express, { Request, Response, NextFunction } from "express" //@types/express
+import express from "express" //@types/express
 import router from './routes.js';
 
 dotenv.config();
@@ -11,8 +9,8 @@ const app = express();
 
 //middleware to pass data as json
 app.use(express.json());
-app.use(router);
 
+app.use(router);
 
 // create a server, express will create a Node server for us
 app.listen(port, () => console.log("server is running at: http://127.0.0.1:5001"))

@@ -1,15 +1,24 @@
 import { Request, Response } from "express" //@types/express
 
 let users = [{
-    id: 1, name: "somthing"
+    id: 1, name: "somthing", age: 15,
 },
 {
-    id: 2, name: "another thing"
+    id: 2, name: "another thing", age: 20
+},
+{
+    id: 3, name: "another thing 2", age: 25
+},
+{
+    id: 2, name: "another thing 3", age: 16
 }
 ];
 
 const getAll = (req: Request, res: Response) => {
+    const ageLimit = Number(req.query.ageLimit || 0);
+    users = users.filter((user) => user.age > ageLimit)
     res.json(users); // send users in a json response
+
 };
 
 const get = (req: Request, res: Response) => { // /users/3
