@@ -26,6 +26,21 @@ const expressServer = https.createServer(options, app);
 In this code, the `https.createServer()` method takes the `app` as a second argument, meaning all incoming requests to the HTTPS server are routed through the Express app. The same applies to an HTTP server.
 
 
+### Folder Structure
+Before proceeding, create the `cert` folder within your project directory to store your SSL certificate and key files. While you will reference these files in this exercise, note that you will generate them in the next exercise.
+
+Your folder structure should look something like this;
+```text
+my-express-project/
+├── cert/           # Directory to store SSL certificates
+├── src/
+│   ├── index.ts    # Main server file
+│   ├── routes.ts   # Router file for Express routes
+│   ├── config.ts   # Configuration file for environment variables
+│   └── ...         # Other files (e.g., helpers, middleware)
+└── package.json    # Node.js package file
+```
+
 
 ### Instuctions
 
@@ -41,12 +56,12 @@ To integrate the HTTP and HTTPS servers into your existing Express-based project
      import http from 'http';
      ```
 
-   - **Step 2:** Create a server that responds with "Hello from HTTP server" to all requests.
+   - **Step 2:** Create an HTTP server that wraps your existing Express app.
 
      <details>
        <summary>Click to reveal a hint for Step 2</summary>
 
-       You'll need to use `http.createServer`, `res.writeHead(200, { 'Content-Type': 'text/plain' })`, and `res.end('Hello from HTTP server')`.
+       You'll need to use `http.createServer(app)` to wrap the Express app.
 
      </details>
 
@@ -66,19 +81,12 @@ To integrate the HTTP and HTTPS servers into your existing Express-based project
 
        ```typescript
        const httpPort = 3000;
-       const httpServer = http.createServer((req, res) => {
-           res.writeHead(200, { 'Content-Type': 'text/plain' });
-           res.end('Hello from HTTP server');
-       });
+       const httpServer = http.createServer(app)
 
        httpServer.listen(httpPort, () => {
            console.log(`HTTP server running on http://localhost:${httpPort}`);
        });
        ```
-
-       **Explanation:**
-       - This code sets up a basic HTTP server that responds to every request with a plain text message "Hello from HTTP server".
-       - The `http.createServer()` method creates the server, and `res.end()` sends the response.
 
      </details>
 
@@ -93,21 +101,21 @@ To integrate the HTTP and HTTPS servers into your existing Express-based project
 
      **Explanation:** The `fs` (File System) module is required to read the SSL certificate files from your local directory. These certificates are necessary to encrypt the data between your server and clients.
 
-   - **Step 2:** Create a `const options` object that stores the paths to the SSL key and certificate files.
+   - **Step 2:** Create a `const options` object that stores the paths to the SSL key and certificate files.  Note that you haven't generated these files yet; you will do so in the next exercise.
 
      <details>
        <summary>Click to reveal a hint for Step 2</summary>
 
-       You'll use `fs.readFileSync('path_to_your_key')` to read the files into the options object.
+       You'll use `fs.readFileSync('cert/key.pem')` to read the files into the options object.
 
      </details>
 
-   - **Step 3:** Create an HTTPS server that listens on port 3443 and responds with "Hello from HTTPS server" to all requests.
+   - **Step 3:** Create an HTTPS server that wraps your existing Express app and listens on port 3443.
 
      <details>
        <summary>Click to reveal a hint for Step 3</summary>
 
-       Use `https.createServer(options, callback)` and `res.end('Hello from HTTPS server')`.
+       Use `https.createServer(options, app)` and `res.end('Hello from HTTPS server')`.
 
      </details>
 
@@ -124,19 +132,12 @@ To integrate the HTTP and HTTPS servers into your existing Express-based project
 
        const httpsPort = 3443;
 
-       const httpsServer = https.createServer(options, (req, res) => {
-           res.writeHead(200, { 'Content-Type': 'text/plain' });
-           res.end('Hello from HTTPS server');
-       });
+       const httpsServer = https.createServer(options, app);
 
        httpsServer.listen(httpsPort, () => {
            console.log(`HTTPS server running on https://localhost:${httpsPort}`);
        });
        ```
-
-       **Explanation:**
-       - This code sets up an HTTPS server using the previously defined `options` object for SSL certificates.
-       - The server responds with "Hello from HTTPS server" when accessed.
 
      </details>
 
