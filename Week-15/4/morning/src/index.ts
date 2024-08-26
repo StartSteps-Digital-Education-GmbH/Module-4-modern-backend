@@ -3,9 +3,15 @@ import * as fs from "fs";
 import express from 'express';
 import router from "./route.js";
 
+
 const app = express()
 
+app.use(express.urlencoded())
+app.use(express.json())
+
+
 app.use(router);
+
 
 const options = {
     key: fs.readFileSync("server.key"),
