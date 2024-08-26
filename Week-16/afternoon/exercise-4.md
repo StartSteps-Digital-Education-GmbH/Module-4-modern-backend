@@ -98,33 +98,33 @@ Configure Express to serve static files from the public directory. This is where
 <details> 
   <summary>Click to reveal the server solution</summary>
   
-```typescript
-const server = createServer(app);
-const wss = new WebSocketServer({ server });
-
-wss.on('connection', (ws: WebSocket) => {
-  console.log('New client connected');
-
-  ws.on('message', (message: string) => {
-    console.log('Received:', message);
-    
-    // Broadcast to all clients
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
+  ```typescript
+  const server = createServer(app);
+  const wss = new WebSocketServer({ server });
+  
+  wss.on('connection', (ws: WebSocket) => {
+    console.log('New client connected');
+  
+    ws.on('message', (message: string) => {
+      console.log('Received:', message);
+      
+      // Broadcast to all clients
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message);
+        }
+      });
+    });
+  
+    ws.on('close', () => {
+      console.log('Client disconnected');
     });
   });
-
-  ws.on('close', () => {
-    console.log('Client disconnected');
+  
+  server.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
   });
-});
-
-server.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
-});
-```
+  ```
 
 **Explanation:**
 createServer(app): Creates an HTTP server to handle requests, using the Express app to serve files.
