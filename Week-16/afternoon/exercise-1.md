@@ -44,7 +44,7 @@ Create a `tsconfig.json` file with this content:
 ### Step 4: Create a WebSocket server
 
 #### Step 4.1: Import the necessary modules to set up a WebSocket server.
-**Instructions:** At the top of your `server.ts` file, add the imports:
+**Instructions:** In your server.ts file (create this file if it doesn’t exist), you need to import the necessary modules at the top. These imports allow you to create and manage WebSocket connections.
 
 <details> <summary>Click to reveal a hint for Step 4.1</summary>
 You'll need to import `WebSocket` and `WebSocketServer` from the `ws` library.
@@ -61,10 +61,8 @@ import { WebSocket, WebSocketServer } from 'ws';
 
 #### Step 4.2: Set up the WebSocket server to listen on port 8080.
 **Instructions:** Initialize the WebSocketServer and specify the port.
-
-<details> <summary>Click to reveal a hint for Step 4.2</summary>
 Use the `WebSocketServer` class and pass an object with the `port` property set to `8080`.
-</details> 
+
 
 <details> <summary>Click to reveal the solution for Step 4.2</summary>
 
@@ -76,7 +74,7 @@ const wss = new WebSocketServer({ port: 8080 });
 </details>
 
 #### Step 4.3: Add an event listener for when a client connects.
-**Instructions:** Listen for the `connection` event to log when a new client connects.
+**Instructions:** Listen for the `connection` event to log when a new client connects. This is important for monitoring your server’s activity.
 
 <details> <summary>Click to reveal a hint for Step 4.3</summary>
 Use `wss.on('connection', ...)` to handle new connections and log a message.
@@ -90,14 +88,13 @@ wss.on('connection', (ws: WebSocket) => {
 });
 ```
 **Explanation:** This event fires whenever a client connects to the server, and the server logs "New client connected."
+   - wss.on('connection'): Listens for new connections to the server.
+   - ws: Represents the connected client.
 </details>
 
 #### Step 4.4: Log when a client disconnects.
-**Instructions:** Inside the `connection` event, listen for the `close` event to log when a client disconnects.
-
-<details> <summary>Click to reveal a hint for Step 4.4</summary>
+**Instructions:** Inside the `connection` event, listen for the `close` event to log when a client disconnects. This helps you keep track of who is connected and when they leave.
 Use `ws.on('close', ...)` to handle when the client disconnects and log a message.
-</details> 
 
 <details> <summary>Click to reveal the solution for Step 4.4</summary>
 
@@ -106,11 +103,11 @@ ws.on('close', () => {
   console.log('Client disconnected');
 });
 ```
-**Explanation:** This event triggers when a client disconnects from the server, and the server logs "Client disconnected."
+**Explanation:** `ws.on('close')` :  This event triggers when a client disconnects from the server, and the server logs "Client disconnected."
 </details>
 
 #### Step 4.5: Add a log to indicate that the WebSocket server is running.
-**Instructions:** After setting up the WebSocket server, log a message that shows the server is running.
+**Instructions:** After setting up the WebSocket server, log a message that shows the server is running. This is useful to confirm that your server is active.
 
 <details> <summary>Click to reveal a hint for Step 4.5</summary>
 Use `console.log(...)` to log a message indicating the server is running.
