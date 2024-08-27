@@ -111,6 +111,17 @@ This morning you started working on setting up a basic full-stack chat applicati
     - `Server as SocketIOServer`: This sets up the WebSocket server using the Socket.IO library, which simplifies real-time event handling.
     - `config`: A library used to handle configuration settings, allowing you to manage different environments (development, production, etc.) more easily.
 
+### 2. Configurations
+- **Step 1**: We will create a configuration file to manage configuration settings. At the root of the `server` folder, create a folder `config`, called `default.json`.
+- **Step 2**: paste the following in the file:
+  ```typescript
+  {
+  "port": 8080,
+  "host": "localhost",
+  "corsOrigin": "http://localhost:3000"
+  }
+  ```
+
 ### 2. Set up an Express app and create an HTTP server
 - **Step**: Initialize the Express app and create an HTTP server:
     ```typescript
