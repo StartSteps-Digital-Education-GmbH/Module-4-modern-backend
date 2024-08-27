@@ -102,7 +102,7 @@ This morning you started working on setting up a basic full-stack chat applicati
     ```typescript
     import express from 'express';
     import { createServer } from 'http';
-    import { Server as SocketIOServer } from 'socket.io';
+    import { Server } from 'socket.io';
     import config from 'config';
     ```
   - **Explanation**: 
@@ -112,6 +112,7 @@ This morning you started working on setting up a basic full-stack chat applicati
     - `config`: A library used to handle configuration settings, allowing you to manage different environments (development, production, etc.) more easily.
 
 ### 2. Configurations
+**Set up configurations**
 - **Step 1**: We will create a configuration file to manage configuration settings. At the root of the `server` folder, create a folder `config`, called `default.json`.
 - **Step 2**: paste the following in the file:
   ```typescript
@@ -122,19 +123,26 @@ This morning you started working on setting up a basic full-stack chat applicati
   }
   ```
 
-### 2. Set up an Express app and create an HTTP server
+**Retrieving Configurations**:
+```typescript
+const port = config.get<number>('port');
+const host = config.get<number>('host');
+const corsOrigin = config.get<string>('corsOrigin');
+```
+
+### 3. Set up an Express app and create an HTTP server
 - **Step**: Initialize the Express app and create an HTTP server:
     ```typescript
     const app = express();
-    const server = createServer(app);
+    const httpserver = createServer(app);
     ```
   - **Explanation**: 
     - Creating an HTTP server that uses the Express app is a common practice because it allows the server to handle both HTTP requests and WebSocket connections seamlessly. Handling both is crucial because it enables the server to serve static files (HTML, CSS, JavaScript) while simultaneously managing real-time WebSocket connections. This unified approach simplifies the architecture, making it easier to manage both HTTP and WebSocket interactions within a single application.
 
-### 3. Use Socket.IO for WebSocket Management
+### 4. Use Socket.IO for WebSocket Management
 - **Step**: Set up Socket.IO to manage WebSocket connections:
     ```typescript
-    const io = new SocketIOServer(server, {
+    const io = new Server(server, {
       cors: {
         origin: config.get('corsOrigin'),
         methods: ["GET", "POST"]
@@ -148,11 +156,20 @@ This morning you started working on setting up a basic full-stack chat applicati
 ### 4. Setup a Basic Route
 - **Step**: Add a basic route to check if the API is running:
     ```typescript
-    app.get('/', (req, res) => {
-      res.send('API is running...');
-    });
+    app.get('/', (req, res) =>  res.send('Server is running...'));
     ```
   - **Explanation**: A basic route is a simple HTTP endpoint that allows you to verify that your server is up and running. This is a common practice because it provides a quick way to check if your server is working correctly before adding more complex routes and functionality.
+
+### 5. Start the HTTP Server
+- **Step**: Add the following code at the end of your app.ts file to start the HTTP server and make it listen for incoming connections:
+  ```typescript
+  httpServer.listen(port, host, () => {
+  console.log(`Server is listening on http://${host}:${port}`);
+  });
+  ```
+
+### 6. Check if everything is working
+- check your terminal that is open in the `server`. It should now show: `Server is listening on http://localhost:8080`
 
 ### 5. Setup Logging with Pino
 - **Step**: Create a `logger.ts` file inside a `utils` folder and set up Pino for logging:
