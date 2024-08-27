@@ -59,6 +59,8 @@ This morning you started working on setting up a basic full-stack chat applicati
     ```
   - **Explanation**: 
     - Adding a `dev` script allows you to start the server with `npm run dev`, which is a best practice for maintaining consistency in how the server is started across different environments and developers.
+- **Step**: in `server`run the following command:
+  `npm install @types/config @types/express ts-node @types/pino --save-dev`
 
 ### 5. Install Dependencies
 - **Step**: In the `server` folder, install the following dependencies:
