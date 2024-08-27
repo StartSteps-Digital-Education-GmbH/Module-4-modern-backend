@@ -171,8 +171,9 @@ const corsOrigin = config.get<string>('corsOrigin');
 ### 6. Check if everything is working
 - check your terminal that is open in the `server`. It should now show: `Server is listening on http://localhost:8080`
 
-### 5. Setup Logging with Pino
-- **Step**: Create a `logger.ts` file inside a `utils` folder and set up Pino for logging:
+
+### 7. Setup Logging with Pino
+- **Creating the logger**: Create a `logger.ts` file inside a `utils` folder and set up Pino for logging:
     ```typescript
     import pino from 'pino';
     import dayjs from 'dayjs';
@@ -192,19 +193,60 @@ const corsOrigin = config.get<string>('corsOrigin');
   - **Explanation**: 
     - Logging is crucial for monitoring your application’s behavior and diagnosing issues. Pino is a fast and low-overhead logging library that’s suitable for both development and production environments. By using `pino-pretty`, you get readable logs during development, and by integrating `dayjs`, you can include timestamps in your logs. This setup is a best practice because it balances performance with usability, making your logs both efficient and easy to read.
 
-### 6. Handling WebSocket Connections
-- **Step**: Set up a socket event for user connections in `app.ts`:
+- **Using the logger**: in `app.ts` change the *console log* where the server listens to incoming connections:
+  ```typescript
+  httpServer.listen(port, host, () => {
+    console.log(`Server is listening on http://${host}:${port}`);
+  });
+  ```
+  to
+  ```typescript
+  logger.info(`Server is listening`);
+  logger.info(`http://${host}:${port}`);
+  ```
+
+### 8. Handling WebSocket Connections
+**Objective**: Enable WebSocket connections using Socket.IO and log connection events for better monitoring.
+
+- **Step 1: Import Required Modules**
+      - Open your socket.ts file in the server/src directory (if it doesn't exist, create it). Add the following imports at the top of the file:
+
     ```typescript
-    io.on('connection', (socket) => {
-      log.info(`New connection: ${socket.id}`);
-
-      socket.on('disconnect', () => {
-        log.info(`Socket disconnected: ${socket.id}`);
-      });
-    });
+    import { Server, Socket } from 'socket.io';
+    import logger from './utils/logger';
     ```
-  - **Explanation**: Managing WebSocket connections is crucial for real-time applications. This code sets up listeners for when a client connects or disconnects. By logging these events, you can track user activity and identify potential issues (like unexpected disconnections). This is a best practice for handling user sessions in a chat application, ensuring that your application can manage multiple users in real-time effectively.
+    **Explanation:**
+    Server and Socket are imported from socket.io to manage WebSocket connections.
+    logger is imported from the custom logger module to log important events like connections and disconnections.
+- **Step 2: Set Up Connection Events**
+      - Define events to handle WebSocket connections:
 
+    ```typescript
+    const EVENTS = {
+      connection: 'connection',
+    };
+    ```
+    **Explanation:**
+    EVENTS is an object that stores the string 'connection' as a constant, which represents the connection event. This makes your code more maintainable, especially as the number of events grows.
+- **Step 3: Create a Function to Manage WebSocket Connections**
+      - Implement the function to handle WebSocket connections:
+
+    ```typescript
+      function socket({ io }: { io: Server }) {
+      logger.info('Sockets enabled');
+    
+      io.on(EVENTS.connection, (socket: Socket) => {
+        logger.info(`User connected ${socket.id}`);
+      });
+    }
+    
+    export default socket;
+    ```
+
+    **Explanation:**
+    - The socket function takes the io instance as a parameter and sets up an event listener for new connections.
+    - When a user connects, it logs the event using the logger.
+    - The function is then exported for use in other parts of the application.
 
 
 
