@@ -63,13 +63,13 @@ This morning you started working on setting up a basic full-stack chat applicati
 ### 5. Install Dependencies
 - **Step**: In the `server` folder, install the following dependencies:
     ```bash
-    npm install express pino dayjs pino-pretty socket.io-client --save
+    npm install express config socket.io pino dayjs
     ```
   - **Explanation**: 
     - `express` is used for handling HTTP requests, which is fundamental for serving files and APIs.
     - `pino` and `pino-pretty` are used for logging. Logging is a best practice as it helps you monitor and debug your application.
     - `dayjs` is used for date formatting, making it easier to work with dates and times in your logs.
-    - `socket.io-client` is used for managing WebSocket connections on the client side, which is crucial for real-time communication in your chat application.
+    - `socket.io` is used for managing WebSocket connections
 
 
 
