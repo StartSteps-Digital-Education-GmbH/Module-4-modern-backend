@@ -83,10 +83,14 @@ This morning you started working on setting up a basic full-stack chat applicati
   ```bash
   npm start
   ```
-- **Server**: Navigate to `server`directory and run:
-  ```bash
-  npm run dev
-  ```
+- **Server**:
+  - Create a file in `/server/src/` called `app.ts`
+  - write: `console.log('hello')
+  - Navigate to `server` directory and run:
+      ```bash
+      npm run dev
+      ```
+      - The server should now be running and you should see 'hello' logged in the terminal.
 
 
 
