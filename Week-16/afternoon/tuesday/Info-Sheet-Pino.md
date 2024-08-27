@@ -19,10 +19,12 @@ npm install pino
 ```
 
 ## Basic Usage:
+```typescript
 const pino = require('pino');
 const logger = pino();
 
 logger.info('This is an info message');
+```
 
 ## Understanding Logging Levels
 Pino provides various logging levels that allow you to categorize the severity of logs:
