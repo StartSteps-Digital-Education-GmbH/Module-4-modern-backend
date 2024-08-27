@@ -78,6 +78,16 @@ This morning you started working on setting up a basic full-stack chat applicati
     npm install socket.io-client
     ```
 
+### 6. Running both Client and Server
+- **Client**: Navigate to `client` directory and run;
+  ```bash
+  npm start
+  ```
+- **Server**: Navigate to `server`directory and run:
+  ```bash
+  npm run dev
+  ```
+
 
 
 
