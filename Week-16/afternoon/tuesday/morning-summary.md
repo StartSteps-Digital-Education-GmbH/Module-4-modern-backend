@@ -73,7 +73,10 @@ This morning you started working on setting up a basic full-stack chat applicati
     - `dayjs` is used for date formatting, making it easier to work with dates and times in your logs.
     - `socket.io` is used for managing WebSocket connections
 
-
+- **Step**: In the `client` folder, install the following dependency:
+    ```bash
+    npm install socket.io-client
+    ```
 
 
 
