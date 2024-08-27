@@ -54,8 +54,8 @@ This morning you started working on setting up a basic full-stack chat applicati
 - **Step**: Add a script in the `server/package.json` to run the server using Nodemon:
     ```json
     "scripts": {
-      "dev": "nodemon src/index.ts"
-    }
+    "dev": "nodemon --config nodemon.json src/app.ts"
+    },
     ```
   - **Explanation**: 
     - Adding a `dev` script allows you to start the server with `npm run dev`, which is a best practice for maintaining consistency in how the server is started across different environments and developers.
