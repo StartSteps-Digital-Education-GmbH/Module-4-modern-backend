@@ -26,6 +26,14 @@ const logger = pino();
 logger.info('This is an info message');
 ```
 
+**Explanation**:
+- `const pino = require('pino');`:
+     - This line imports the Pino logging library into your project. require('pino') loads the Pino module, allowing you to use its logging functionalities.
+- `const logger = pino();`:
+     - Here, a new Pino logger instance is created. The pino() function initializes the logger with default settings, which will generate logs in a JSON format by default. This logger instance (logger) will be used to log messages at different levels (info, error, etc.).
+- `logger.info('This is an info message');`:
+     - This line logs an informational message using the info level.  The info level is typically used for general operational messages that highlight the progress or state of the application. In a production environment, info logs can be useful for monitoring the normal operations of your application without overwhelming the log files with too much detail.
+
 ## Understanding Logging Levels
 Pino provides various logging levels that allow you to categorize the severity of logs:
 
@@ -98,5 +106,10 @@ By default, Pino log lines are newline-delimited JSON (NDJSON). This is perfect 
     5. Exporting the Logger:
          - export default log;:
          - This line exports the configured logger so it can be used throughout the application for logging.
-    
-   
+
+
+
+**Sources:**
+- https://signoz.io/guides/pino-logger/
+- https://github.com/pinojs/pino/blob/main/docs/pretty.md
+- Today's Slides
