@@ -10,7 +10,7 @@ function socket({ socketServer }: {
 }) {
     logger.info("Socket is enabled");
     socketServer.on(EVENTS.connection, (socket: Socket) => {
-        logger.info(`new client connected with an id of: ${socket}`)
+        logger.info(`new client connected with an id of: ${socket.id}`)
     });
 }
 
