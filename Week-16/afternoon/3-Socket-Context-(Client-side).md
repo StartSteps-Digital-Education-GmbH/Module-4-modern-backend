@@ -108,7 +108,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 ---
 
-### Step 4: Wrapping the App Component
+### 4: Wrapping the App Component
 
 **Objective:** Use the `SocketsProvider` to wrap the entire React application, making the socket connection available throughout the app.
 
@@ -138,7 +138,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 ---
 
-### Step 5: Accessing the Socket in the App Component
+### 5: Accessing the Socket in the App Component
 
 **Objective:** Use the socket connection in the `App` component to manage and display the socket ID.
 
@@ -148,14 +148,13 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 1. Open `App.tsx`.
 2. Clear out any existing code inside the `App` function, so you start with an empty function.
-3. Your `App.tsx` file should look like this:
+3. Your `function App()` file should look like this:
 
     ```typescript
     function App() {
       // Your new code will go here
     }
 
-    export default App;
     ```
 
 **Explanation:**
