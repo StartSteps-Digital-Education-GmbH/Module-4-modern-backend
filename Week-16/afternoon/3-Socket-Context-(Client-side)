@@ -142,27 +142,17 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 **Objective:** Use the socket connection in the `App` component to manage and display the socket ID.
 
+### Step 5.1: Clear Out the Existing `App` Component
+
 **Instructions:**
 
-1. In `App.tsx`, access the socket from the context and display the socket ID:
+1. Open `App.tsx`.
+2. Clear out any existing code inside the `App` function, so you start with an empty function.
+3. Your `App.tsx` file should look like this:
 
     ```typescript
-    import { useEffect, useState } from 'react';
-    import { useSockets } from './context/socket.context';
-
     function App() {
-      const { socket } = useSockets();
-      const [socketId, setSocketId] = useState<string | undefined>("");
-
-      useEffect(() => {
-        socket.on("connect", () => setSocketId(socket.id));
-
-        return () => {
-          socket.off("connect", () => setSocketId(socket.id));
-        };
-      }, [socket]);
-
-      return <div>{socketId}</div>;
+      // Your new code will go here
     }
 
     export default App;
@@ -170,7 +160,111 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 **Explanation:**
 
-- `useSockets`: Retrieves the socket connection from the context.
-- `useEffect`: Listens for the `connect` event emitted by the server and updates the `socketId` state with the connected socket's ID.
-- `socket.off("connect")`: Removes the event listener when the component unmounts to prevent memory leaks.
-- `socketId`: Displays the current socket ID in the UI.
+- This step ensures that you’re starting with a clean slate, making it easier to follow the upcoming instructions.
+
+### Step 5.2: Import Necessary Modules
+
+**Instructions:**
+
+1. At the top of your `App.tsx` file, import the `useEffect` and `useState` hooks from React.
+2. Also, import `useSockets` from the `socket.context` file.
+
+    ```typescript
+    import { useEffect, useState } from 'react';
+    import { useSockets } from './context/socket.context';
+    ```
+
+**Explanation:**
+
+- `useEffect` and `useState` are React hooks that allow you to manage state and side effects within your component.
+- `useSockets` is the custom hook you created earlier to easily access the socket connection from the context.
+
+### Step 5.3: Initialize the Socket and State
+
+**Instructions:**
+
+1. Inside the `App` function, use `useSockets` to retrieve the socket connection.
+2. Initialize a `socketId` state variable with an empty string as the initial value.
+
+    ```typescript
+    function App() {
+      const { socket } = useSockets();
+      const [socketId, setSocketId] = useState<string | undefined>("");
+    ```
+
+**Explanation:**
+
+- `socket`: The socket connection retrieved from the context, which you will use to interact with the server.
+- `socketId`: A state variable that will store the ID of the connected socket.
+
+### Step 5.4: Set Up a `useEffect` Hook to Listen for the `connect` Event
+
+**Instructions:**
+
+1. Inside the `App` function, add a `useEffect` hook to listen for the `connect` event.
+2. When the `connect` event is triggered, update the `socketId` state with the socket’s ID.
+
+    ```typescript
+      useEffect(() => {
+        socket.on("connect", () => setSocketId(socket.id));
+
+        return () => {
+          socket.off("connect", () => setSocketId(socket.id));
+        };
+      }, [socket]);
+    ```
+
+**Explanation:**
+
+- `useEffect`: This hook is used to run side effects in your component, such as setting up event listeners.
+- `socket.on("connect")`: Listens for the `connect` event, which is emitted by the server when the socket connection is established. When this event occurs, the `socketId` state is updated with the current socket ID.
+- `socket.off("connect")`: Cleans up the event listener when the component unmounts, preventing memory leaks.
+
+### Step 5.5: Display the `socketId` in the UI
+
+**Instructions:**
+
+1. Add a `return` statement to the `App` function that displays the `socketId` in the UI.
+
+    ```typescript
+      return <div>{socketId}</div>;
+    }
+    ```
+
+**Explanation:**
+
+- The `socketId` is rendered inside a `<div>` element, allowing you to see the connected socket’s ID in the UI.
+
+### Step 5.6: Export the `App` Component
+
+**Instructions:**
+
+1. Ensure that `App` is exported as the default export at the end of the file.
+
+    ```typescript
+    export default App;
+    ```
+
+**Final Code in `App.tsx`:**
+
+```typescript
+import { useEffect, useState } from 'react';
+import { useSockets } from './context/socket.context';
+
+function App() {
+  const { socket } = useSockets();
+  const [socketId, setSocketId] = useState<string | undefined>("");
+
+  useEffect(() => {
+    socket.on("connect", () => setSocketId(socket.id));
+
+    return () => {
+      socket.off("connect", () => setSocketId(socket.id));
+    };
+  }, [socket]);
+
+  return <div>{socketId}</div>;
+}
+
+export default App;
+
