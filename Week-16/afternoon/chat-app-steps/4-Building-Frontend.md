@@ -1,4 +1,4 @@
-# Chapter: Building Frontend
+# 4: Building Frontend
 
 ### **Step 1: Create the Containers Folder**
 
@@ -92,6 +92,37 @@ Objective: Prevent users from accessing chat rooms and messages without entering
 
 1. **Modify the Context to Store Username:**
   - Update the SocketContext to include a username state that will be passed down through the context.
+- **Step 1: Adding State for Username**
+  - A username state needs to be added using the useState hook.
+  - A setUsername function needs to be added to update the username state.
+  - **Why:**
+    - The `username` state allows the app to store the user's username. This username will be passed down through the context to any component that needs it.
+    - The `setUsername` function is necessary to change the username state based on user input.
+   ```typescript
+   const [username, setUsername] = useState<string | undefined>("");
+   ```
+   
+- **Step 2: Modyfing the Context Creation**
+  - The `createContext` function needs to be updated to include both the   `username` and `setUsername` values in addition to the existing `socket`.
+  - **Why:** By including username and setUsername in the context, we're making these values available to any component that consumes the context. This is crucial for components that need to know the current username or allow the user to change it.
+
+   ```typescript
+   export const SocketContext = createContext({
+  socket, 
+  username: "", 
+  setUsername: () => {}
+   });
+   ```
+- **Step 3: Updating the `SocketsProvider`:**
+  ```typescript
+  <SocketContext.Provider value={{ socket, username, setUsername }}>
+     {children}
+   </SocketContext.Provider>
+   ```
+  - The SocketsProvider component is updated to pass the username and setUsername values through the context. Now, any child component within this provider can access and modify the username.
+
+- **Final Version:**
+- 
     ```typescript
     // socket.context.tsx
     export const socket = io(SOCKET_URL);
@@ -110,3 +141,154 @@ Objective: Prevent users from accessing chat rooms and messages without entering
     export const useSockets = () => useContext(SocketContext);
     export default SocketsProvider;
     ```
+
+---
+
+## Step 4: Create a Handler to Set the Username
+Objective: Create a handler function in `App.tsx` that will *set* the username and *store it in `localStorage`*. We will use both `useState` and context.
+
+### Why Use Both `useState` and Context?
+
+#### 1. **`useState`: Local Component State Management**
+- **Purpose**: The `useState` hook is used to manage state within a specific React component. In this case, `useState` is used to keep track of the username within the `App` component.
+- **Why It's Necessary**:
+  - **Immediate Feedback**: When a user enters their username, you want to immediately reflect this change in the UI. `useState` allows you to do this by instantly updating the state within the component, which triggers a re-render and reflects the change in the UI.
+  - **Local Control**: `useState` is perfect for managing state that is local to a component, such as form inputs, toggle states, or any other piece of data that doesn't need to be shared across the entire application.
+
+#### 2. **Context: Global State Management**
+- **Purpose**: Context is used to provide and manage state across multiple components in a React application. It's ideal for sharing data that needs to be accessible by multiple components at different levels of the component tree.
+- **Why It's Necessary**:
+  - **Global Access**: The username needs to be accessed by various components (e.g., `RoomsContainer`, `MessagesContainer`). Using context allows you to store the username in a global state that can be accessed by any component wrapped within the `SocketsProvider`.
+  - **Consistency Across Components**: Context ensures that all components using the context will have access to the same, up-to-date username. This is particularly important for maintaining consistent state across different parts of the app.
+
+### How They Work Together
+
+- **`useState`**: Manages the username locally within the `App` component. This allows for immediate updates to the UI when the username changes.
+- **Context**: Shares the username (and the ability to update it) with other components in the app. When the username is updated in the `App` component using `setUsername`, the updated value is available to all other components that consume the context.
+
+### Step-by-Step Breakdown
+
+#### Step 1: Access Context Values
+```typescript
+const { socket, username, setUsername } = useSockets();
+```
+### Explanation: 
+Here, you’re accessing the values provided by the `SocketContext`. These values include `socket` (the WebSocket connection), `username` (the current username stored in the context), and `setUsername` (a function to update the username in the context).
+
+**Why Both `useState` and Context?**: 
+`setUsername` is provided by the context but is controlled by the `useState` hook within the `SocketsProvider`. This setup allows any component using the context to update the username, but the actual state management is handled by `useState`.
+
+### Step 2: Create a Reference for the Username Input
+
+```typescript
+const usernameRef = useRef<HTMLInputElement>(null);
+```
+
+
+**Explanation**: 
+`useRef` is used to create a reference to the username input field. This allows you to directly access the input’s value later on, without needing to re-render the component every time the user types something.
+
+**Why?**: 
+While you could manage the input value using `useState`, using `useRef` here avoids unnecessary re-renders and is more efficient when you only need to access the value at a specific moment (e.g., when the user submits the form).
+
+### Step 3: Define the Handler Function
+
+```typescript
+const handleSetUsername = () => {
+  const usernameValue = usernameRef.current?.value;
+  if (!usernameValue) return;
+
+  setUsername(usernameValue);
+  localStorage.setItem("username", usernameValue);
+};
+```
+
+**Explanation**:
+- **Extracting Username**: `usernameRef.current?.value` retrieves the value from the input field when the user clicks the "Log In" button.
+- **Validation**: The `if (!usernameValue) return;` line ensures that the function exits early if no username is provided. This is a safeguard against empty inputs.
+- **Updating State and Context**: `setUsername(usernameValue);` updates the local state in the `App` component and simultaneously updates the context, making the username available throughout the app.
+- **Storing in `localStorage`**: `localStorage.setItem("username", usernameValue);` ensures the username is saved even if the user refreshes the page, providing a persistent user experience.
+
+### Why Not Just One?
+
+- **`useState` Alone**: If you used only `useState` without context, you’d limit the scope of the username to the `App` component. Other components wouldn’t be able to access or react to changes in the username unless you passed it down explicitly through props, which can become cumbersome in a larger application.
+  
+- **Context Alone**: If you used context without `useState`, you’d lose the ability to manage local component state efficiently. For example, you wouldn’t be able to provide immediate feedback in the UI when the username changes, as context changes might not trigger re-renders in the same way that `useState` does.
+
+### Conclusion
+
+By using both `useState` and context, you get the best of both worlds: efficient local state management within components, and the ability to share and update that state across the entire application. This approach is a **best practice** in React for managing global state like user authentication details, especially in applications where multiple components need access to the same piece of data.
+
+---
+
+### Step 5: Conditional Rendering Based on Username
+**Objective:** Render different UI elements depending on whether a username is present.
+
+**Why?**
+This approach ensures that the user is prompted to enter a username before they can interact with the rest of the application. It enhances user experience by guiding them through necessary steps in a clear and logical manner.
+
+**Instructions:**
+
+#### Check if Username is Present:
+
+```typescript
+if (!username) {
+  return (
+    <div>
+      <input placeholder="username" ref={usernameRef} />
+      <button onClick={handleSetUsername}>Log In</button>
+    </div>
+  );
+}
+```
+**Explanation:**
+- **Conditional Rendering:** `if (!username) { ... }` checks if the `username` state is empty. If it is, the application will render a form prompting the user to enter a username. Conditional rendering is a common practice in React to display different components based on application state.
+- **Rendering the Login Form**: The input field and button allow the user to enter and submit their username. The `onClick` event on the button triggers the `handleSetUsername` function to update the username.
+
+### Render the Main Application if Username Exists:
+
+```typescript
+return (
+  <div>
+    <RoomsContainer />
+    <MessagesContainer />
+  </div>
+);
+```
+
+**Explanation:**
+- If a username is present, the main components of the application (`RoomsContainer` and `MessagesContainer`) are rendered. This ensures that only authenticated or identified users can access the chat rooms and messages. This practice is a common practice in applications that require user identification.
+
+### Final Code
+```typescript
+function App() {
+  const { socket, username, setUsername } = useSockets();
+  const usernameRef = useRef<HTMLInputElement>(null);
+
+  const handleSetUsername = () => {
+    const usernameValue = usernameRef.current?.value;
+    if (!usernameValue) return;
+
+    setUsername(usernameValue);
+    localStorage.setItem("username", usernameValue);
+  };
+
+  if (!username) {
+    return (
+      <div>
+        <input placeholder="username" ref={usernameRef} />
+        <button onClick={handleSetUsername}>Log In</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <RoomsContainer />
+      <MessagesContainer />
+    </div>
+  );
+}
+
+export default App;
+```
