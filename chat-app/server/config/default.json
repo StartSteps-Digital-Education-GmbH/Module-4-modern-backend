@@ -1,5 +1,0 @@
-{
-    "port": 8080,
-    "host": "localhost",
-    "corsOrigin": "http://localhost:3000"
-    }
