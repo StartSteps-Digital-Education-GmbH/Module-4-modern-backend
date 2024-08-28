@@ -15,6 +15,7 @@ The implementation will be broken down into several steps:
 4. **Handling Room Creation on the Server**: We'll process room creation requests, generate unique room IDs, and broadcast updates to all connected clients.
 
 ---
+## Client-side
 
 ### Step 1: Add Rooms Logic to the Context
 
@@ -60,19 +61,19 @@ The implementation will be broken down into several steps:
 3.  **Create State for Room ID and Rooms in Context Provider:**
 
     **Explanation:**
-    -   We want room-related data to be dynamically updated and accessed by any component in the context.
-    -   Use `useState` to manage `roomId` and `rooms` within the context provider.
+    -   Use `useState` to manage `roomId` and `rooms` within the **context provider**.
     -   Managing state with useState within a context provider is a best practice for ensuring that state is easily shareable across components.
 
+    In the function `SocketsProvider()` add the following at the top:
+    
     ```typescript
     const [roomId, setRoomId] = useState<string | undefined>("");
     const [rooms, setRooms] = useState<Room[]>([{ id: "", name: "" }]);
     ```
 
-4.  **Update the Context Provider Value:**
+5.  **Update the Context Provider Value:**
 
     **Explanation:**
-    -   We want to make room data accessible to any component wrapped with this provider, ensuring that the UI stays in sync with the application state.
     -   Pass `roomId` and `rooms` along with their setters through the context provider.
     -   This ensures that any component wrapped with this provider can access and update the room data.
     -   Providing state and functions through context is a best practice for managing global state in a React application.
@@ -92,7 +93,7 @@ The implementation will be broken down into several steps:
 
 **Instructions:**
 
-1.  **Create an `events.ts` File:**
+1.  **Create an `events.ts` File in `client/src/config`:**
 
     **Explanation:**
 
@@ -119,8 +120,10 @@ The implementation will be broken down into several steps:
 **Why?** Creating new rooms is a fundamental feature of a chat application, allowing users to organize conversations into different topics or groups.
 
 **Instructions:**
+1.  **Create `Rooms.tsx`**
+     - create a file `Rooms.tsx` in `client/src/containers`
 
-1.  **Create State for Room Name:**
+2.  **Create State for Room Name:**
 
     **Explanation:**
 
@@ -175,35 +178,129 @@ The implementation will be broken down into several steps:
     );
     ```
 
-### Step 4: Handle Room Creation on the Server
+# Server-side
 
-**Objective:** Process room creation requests from the client, generate unique room IDs, and broadcast room updates.
+## Step 1: Setting Up the Basics
+----------------------------------
 
-**Why?** Handling room creation on the server ensures that room data is consistent and shared among all connected clients.
+### 1\. Define the `Room` Interface
+
+**Why?** Defining an interface ensures that all room objects follow the same structure. This is crucial for maintaining type safety and consistency in a TypeScript application.
 
 **Instructions:**
 
-1.  **Set Up the Socket Event Listener:**
+**Code:**
 
-    **Explanation:**
+```typescript
+interface Room {
+  id: string;
+  name: string;
+}
+```
 
-    -   Listen for the room creation event, log the room name, and generate a unique room ID using `uuid`.
-    -   This is a best practice for ensuring that each room has a unique identifier, preventing name collisions.
+**Explanation:**
 
-    ```typescript
-    socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName }) => {
-      logger.info(`Created Room: ${roomName}`);
+-   The `Room` interface defines the structure for room objects with `id` and `name` properties.
+-   This is a common practice in TypeScript to ensure type safety and consistency across the application.
 
-      const roomId = v4();
-      rooms.push({ id: roomId, name: roomName });
+### 2\. Define Events Constants
 
-      socket.join(roomId);
+**Objective:** Add the new events to the `EVENTS` constant.
 
-      socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
-      socket.emit(EVENTS.SERVER.ROOMS, rooms);
-      socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
-    });
-    ```
+**Instructions:**
+
+**Code:**
+
+```typescript
+const EVENTS = {
+  connection: "connection",
+  CLIENT: {
+    CREATE_ROOM: "CREATE_ROOM",
+  },
+  SERVER: {
+    ROOMS: "ROOMS",
+    JOINED_ROOM: "JOINED_ROOM",
+  },
+};
+```
+
+**Explanation:**
+
+-   The `EVENTS` constant stores the event names for both client and server events.
+-   This is a common practice for organizing code and reducing hardcoding, making the application more maintainable.
+
+### 3\. Initialize the `rooms` Array
+
+**Objective:** Manage the list of all chat rooms on the server.
+
+**Why?** The `rooms` array will store all the chat rooms created on the server, ensuring that all connected clients have access to the current list of rooms.
+
+**Instructions:**
+
+**Code:**
+
+```typescript
+const rooms: Room[] = [{ id: "", name: "" }];
+```
+
+**Explanation:**
+
+-   The `rooms` array will hold all the room objects, each following the `Room` interface structure.
+-   This setup is crucial for managing the rooms and ensuring that all clients have access to the current list of rooms.
+
+* * * * *
+
+## Step 2. Handle Room Creation on the Server
+
+### 1\. Set Up the Socket Event Listener in `socket.ts`
+
+**Objective:** Process room creation requests from the client, generate unique room IDs, and broadcast room updates.
+
+**Why?** Handling room creation on the server ensures that room data is consistent and shared among all connected clients. This keeps the state of the application uniform across different users, which is crucial in a multi-user environment like a chat application.
+
+**Instructions:**
+. **Set Up the Socket Event Listener in `socket.ts`:**
+        - **Listening for Room Creation Events:** We want to react when the client sends a request to create a new chat room. The `socket.on` method is used to listen for this event, which will be triggered from the client side.
+        - **Logging:** `logger.info` is used to log the name of the room that has been created. This is useful for debugging and monitoring purposes.
+        - **Generating a Unique Room ID:** Each room needs to have a unique identifier. We use the `uuid` library (`v4()` method) to generate this ID.
+        - **Joining the Room:** Once the room is created, the user who created it should automatically join it. This is done using the `socket.join(roomId)` method.
+        - **Broadcasting Updates:** 
+          - `socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms to all clients except the one that triggered the event.
+          - `socket.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms back to the client who created the room.
+          - `socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);` informs the client that they have successfully joined the newly created room.
+
+
+**Code:**
+
+```typescript
+`socket.on(EVENTS.CLIENT.CREATE_ROOM, ({ roomName }) => {
+  logger.info(`Created Room: ${roomName}`);
+
+  const roomId = v4(); // Generate a unique ID for the new room
+  rooms.push({ id: roomId, name: roomName }); // Add the new room to the rooms array
+
+  socket.join(roomId); // The user who created the room automatically joins it
+
+  // Broadcast the updated list of rooms to all clients except the one that triggered the event
+  socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);
+
+  // Send the updated list of rooms back to the client who created the room
+  socket.emit(EVENTS.SERVER.ROOMS, rooms);
+
+  // Inform the client that they have successfully joined the new room
+  socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+});
+```
+
+**Explanation:**
+
+-   **Event Listener:** The `socket.on` method listens for the `CREATE_ROOM` event from the client.
+-   **Logging:** The `logger.info` method logs the name of the room that was created for debugging and monitoring purposes.
+-   **Unique Room ID:** The `v4()` method from the `uuid` library generates a unique ID for each new room to prevent collisions.
+-   **Add to Rooms Array:** The new room is added to the `rooms` array, ensuring that it is tracked by the server.
+-   **Join Room:** The user who created the room automatically joins it, enabling them to start sending and receiving messages in that room.
+-   **Broadcast:** The `socket.broadcast.emit` method sends the updated list of rooms to all other connected clients, ensuring they have the latest information.
+-   **Emit to Creator:** The `socket.emit` method sends the updated list of rooms and confirmation that the user joined the room back to the client who created it.
 
 * * * * *
 
@@ -219,9 +316,9 @@ Here's an overview of the current folder structure and what each file does:
             -   `Rooms.tsx`: Manages room creation on the client side, allowing users to input a room name and submit it.
             -   `Messages.tsx`: Will be used to display the messages for the selected room (implementation is forthcoming).
         -   **config/**
-            -   `default.ts`: Stores configuration settings like the SOCKET_URL.
+            -   `default.ts`: Stores configuration settings like the `SOCKET_URL`.
             -   `events.ts`: Stores constants for different events used in the application.
-        -   **App.tsx**: The main component that renders the RoomsContainer and MessagesContainer. It handles the user's login and displays the appropriate UI based on whether the user has entered a username.
+        -   **App.tsx**: The main component that renders the `RoomsContainer` and `MessagesContainer`. It handles the user's login and displays the appropriate UI based on whether the user has entered a username.
 -   **server/**
     -   **src/**
         -   `socket.ts`: Handles all socket-related events on the server side, such as room creation and broadcasting updates to connected clients.
