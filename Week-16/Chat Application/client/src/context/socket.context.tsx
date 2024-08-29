@@ -58,6 +58,7 @@ const SocketProvider = ({ children }: {
     });
 
     socket.on(EVENTS.SERVER.ROOM_MESSAGE, (value) => {
+        //TODO: We are having an error here as client is not getting back messages from server we will debug it tomrow
         if (messages) {
             setMessages([...messages, value])
         } else {
