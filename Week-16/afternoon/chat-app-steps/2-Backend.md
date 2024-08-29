@@ -167,6 +167,10 @@ const corsOrigin = config.get<string>('corsOrigin');
 
 ---
 
+We cannot test whether making a connection to a client works yet, because we haven't set up our client side yet! This will be our next step. 😸 
+
+---
+
 This is how far we got on tuesday!
 
 ---
