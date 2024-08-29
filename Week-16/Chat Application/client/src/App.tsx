@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { useSocket } from './context/socket.context';
+import { useState, useEffect } from 'react';
+import { Messages, Rooms } from './containers';
+import React from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { socket, userName, setUserName } = useSocket(); //use useContext to get value of scket from context
+    const [socketId, setSocketId] = useState<string | undefined>("");
+
+    const usernameRef = React.useRef<HTMLInputElement>(null);
+
+    const handleSetUserName = () => {
+        const userNameValue = usernameRef.current?.value;
+        if (!userNameValue) {
+            return;
+        }
+        setUserName(userNameValue);
+        localStorage.setItem("userName", userNameValue);
+    }
+    useEffect(() => {
+        socket.on('connect', () => {
+            setSocketId(socket.id);
+        })
+    }, [socket]) //only once when component mounts
+
+    if (!userName)
+        return <div>
+            <input type="text" placeholder="UserName" ref={usernameRef} />
+            <button onClick={handleSetUserName}>Login</button>
+        </div>
+
+    return (<>
+        <div className="App">
+            {socketId}
+        </div>
+        <Rooms />
+        <Messages />
+    </>
+    );
 }
 
 export default App;
