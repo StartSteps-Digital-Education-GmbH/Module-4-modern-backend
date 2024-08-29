@@ -6,6 +6,10 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 **Why Wrap Everything on the Client Side?**
 - **Global Access**:  Wrapping the socket connection on the client side allows every component in your React app to easily access the WebSocket connection. This is essential for managing real-time updates across your application.
 - **Separation of Concerns**: Separating your WebSocket logic from the rest of your server logic allows you to keep your code modular, making it easier to manage and scale.
+
+### 1. Create a config Folder
+- Create a config folder in `client/src`
+- Create a `default.ts` file here we will define SOCKET_URL and try to get it from environment variable or simply from our server.
   
 ### 1. Create a Context Folder
 - **Objective**: Set up a context for managing socket connections in the React app. By centralizing the WebSocket logic in a context provider, you keep your code clean and maintainable, ensuring that only components that need access to the socket connection use it.

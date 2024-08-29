@@ -132,13 +132,19 @@ const corsOrigin = config.get<string>('corsOrigin');
     **Explanation:**
     EVENTS is an object that stores the string 'connection' as a constant, which represents the connection event. This makes your code more maintainable, especially as the number of events grows.
 - **Step 3: Create a Function to Manage WebSocket Connections**
-      - Implement the function to handle WebSocket connections:
+  - listen for specific events on the socketServer:
+  
+    `socketServer.on(events, code-to-execute-upon-event)`
+    
+  - upon a connection event, `socket.io` automatically creates a new `socket` representing the connection between the server and that specific client.
+  
+  - Implement the function to handle WebSocket connections:
 
     ```typescript
       function socket({ io }: { io: Server }) {
       logger.info('Sockets enabled');
     
-      io.on(EVENTS.connection, (socket: Socket) => {
+      socketServer.on(EVENTS.connection, (socket: Socket) => {
         logger.info(`User connected ${socket.id}`);
       });
     }
@@ -152,6 +158,16 @@ const corsOrigin = config.get<string>('corsOrigin');
     - The function is then exported for use in other parts of the application.
 
 
+- **Step 4: Enable Socket Logic**
+  - Now that we created a function to handle Websocket connections we need to pass our `socketServer` in app.ts to our `socket()` function. This wil initialize our `socketServer` with the event handling logic and enable sockets.
+  - In the `httpServer.listion()` method add the following line at the end:
+
+    `socket({socketServer});`
+
+
+---
+
+We cannot test whether making a connection to a client works yet, because we haven't set up our client side yet! This will be our next step. 😸 
 
 ---
 
