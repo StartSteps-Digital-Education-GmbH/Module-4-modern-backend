@@ -158,6 +158,12 @@ const corsOrigin = config.get<string>('corsOrigin');
     - The function is then exported for use in other parts of the application.
 
 
+- **Step 4: Enable Socket Logic**
+  - Now that we created a function to handle Websocket connections we need to pass our `socketServer` in app.ts to our `socket()` function. This wil initialize our `socketServer` with the event handling logic and enable sockets.
+  - In the `httpServer.listion()` method add the following line at the end:
+
+    `socket({socketServer});`
+
 
 ---
 
