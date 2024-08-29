@@ -132,13 +132,17 @@ const corsOrigin = config.get<string>('corsOrigin');
     **Explanation:**
     EVENTS is an object that stores the string 'connection' as a constant, which represents the connection event. This makes your code more maintainable, especially as the number of events grows.
 - **Step 3: Create a Function to Manage WebSocket Connections**
-      - Implement the function to handle WebSocket connections:
+  - listen for specific events on the socketServer:
+    `socketServer.on(events, code-execute-upon-event)`
+  - upon a connection event, `socket.io` automatically creates a new `socket` representing the connection between the server and that specific client.
+  
+  - Implement the function to handle WebSocket connections:
 
     ```typescript
       function socket({ io }: { io: Server }) {
       logger.info('Sockets enabled');
     
-      io.on(EVENTS.connection, (socket: Socket) => {
+      socketServer.on(EVENTS.connection, (socket: Socket) => {
         logger.info(`User connected ${socket.id}`);
       });
     }
