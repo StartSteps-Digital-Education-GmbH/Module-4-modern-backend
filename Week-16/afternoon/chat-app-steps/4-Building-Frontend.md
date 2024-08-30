@@ -208,7 +208,7 @@ Here, you’re accessing the values provided by the `SocketContext`. These value
 **Why Both `useState` and Context?**: 
 `setUsername` is provided by the context but is controlled by the `useState` hook within the `SocketsProvider`. This setup allows any component using the context to update the username, but the actual state management is handled by `useState`.
 
-### Step 2: Create a Reference for the Username Input
+### Step 2: Create a State for the Username Input
 
 ```typescript
 const usernameRef = useRef<HTMLInputElement>(null);
