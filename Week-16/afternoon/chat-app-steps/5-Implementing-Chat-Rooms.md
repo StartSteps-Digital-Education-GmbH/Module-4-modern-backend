@@ -344,6 +344,14 @@ const rooms: Room[] = [{ id: "", name: "" }];
 -   **Broadcast:** The `socket.broadcast.emit` method sends the updated list of rooms to all other connected clients, ensuring they have the latest information.
 -   **Emit to Creator:** The `socket.emit` method sends the updated list of rooms and confirmation that the user joined the room back to the client who created it.
 
+
+### V4 package
+- **Step 1**: Open your terminal and install iuud library:
+  `npm install uuid`
+- **Step 2**: In `socket.ts` import v4 package from iuud:
+  `import { v4 as uuidv4 } from 'uuid';`
+
+
 * * * * *
 
 ### Folder Structure Overview
