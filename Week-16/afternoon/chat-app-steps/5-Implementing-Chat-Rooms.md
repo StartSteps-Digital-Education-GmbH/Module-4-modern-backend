@@ -90,18 +90,15 @@ The implementation will be broken down into several steps:
   
       **Add the Following Code in `socket.context.tsx` within the `SocketsProvider` Component:**
   
-      typescript
-  
-      Copy code
-  
-      `socket.on(EVENTS.SERVER.ROOMS, (value) => {
+      ```typescript
+      socket.on(EVENTS.SERVER.ROOMS, (value) => {
         setRooms(value);
       });
   
       socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
         setRoomId(value);
-      });`
-
+      });
+      ```
 
 6.  **Update the Context Provider Value:**
 
