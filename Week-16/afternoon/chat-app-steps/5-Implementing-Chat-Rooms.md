@@ -349,7 +349,12 @@ const rooms: Room[] = [{ id: "", name: "" }];
 - **Step 1**: Open your terminal and install iuud library:
   `npm install uuid`
 - **Step 2**: In `socket.ts` import v4 package from iuud:
+  
   `import { v4 as uuidv4 } from 'uuid';`
+  
+- **Step 3:**
+  
+  `npm install @types/uuid --save-dev`
 
 
 * * * * *
