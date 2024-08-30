@@ -12,15 +12,28 @@ const EVENTS = {
     CLIENT:{
         CREATE_ROOM: "CREATE_ROOM",
         SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
-    },
+        JOIN_ROOM: "JOIN_ROOM"
+    }, //events that client can emit, and the server can listen to(on)
     SERVER:{
         ROOMS: "ROOMS",
         JOINED_ROOM: "JOINED_ROOM",
         ROOM_MESSAGE: "ROOM_MESSAGE"
-    }
+        
+    }//events that server can emit, and the client can listen to(on)
 }
 
-const rooms: Room[] = [{id: "", name: ""}];
+const rooms: Room[] = [];
+
+interface Messages {
+    [roomId: string]: {
+        content: string;
+        userName: string;
+        time: string;
+    }[]
+}
+const messages: Messages = {};
+
+//TODO: store rooms messages
 
 function socket({ socketServer }: {
     socketServer: Server,
@@ -41,7 +54,7 @@ function socket({ socketServer }: {
 
             socket.emit(EVENTS.SERVER.ROOMS, rooms)
 
-            socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);
+            socket.emit(EVENTS.SERVER.JOINED_ROOM, {roomId, messages: []});
 
         })
 
@@ -56,9 +69,25 @@ function socket({ socketServer }: {
             socket.to(roomId).emit(EVENTS.SERVER.ROOM_MESSAGE, {
                 content,
                 userName,
-                time: `${date.getHours}:${date.getMinutes}`
-            })
+                time: `${date.getHours()}:${date.getMinutes()}`
+            });
+            messages[roomId] = messages[roomId] || [];
+            messages[roomId].push({
+                content,
+                userName,
+                time: `${date.getHours()}:${date.getMinutes()}`
+            });
         })
+
+        socket.on(EVENTS.CLIENT.JOIN_ROOM, ({roomId}) => {
+            logger.info(`Connection ${socket.id} joined room ${roomId}`);
+            socket.join(roomId);
+            socket.emit(EVENTS.SERVER.JOINED_ROOM, {
+                roomId,
+                messages: messages[roomId] || []
+            });
+        })
+
     });
 }
 

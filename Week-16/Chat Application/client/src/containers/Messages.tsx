@@ -1,8 +1,8 @@
 import { EVENTS } from "../config/event";
 import { useSocket } from "../context/socket.context"
-import { useRef, useState } from "react";
+import { useRef } from "react";
 export const Messages = () => {
-    const { messages, socket, roomId, userName } = useSocket();
+    const { messages, socket, roomId, userName, setMessages } = useSocket(); //useContext
 
     // const [message, setMessage] = useState("");
 
@@ -16,22 +16,33 @@ export const Messages = () => {
             roomId,
             content,
             userName,
-        });
+        }); //send message to server to spesific room
 
-        if(newMessageRef.current) {
-            newMessageRef.current.value ="";
+        const date = new Date();
+
+        if (messages && content) {
+            setMessages([...messages, {
+                userName: "you",
+                content,
+                time: `${date.getHours()}:${date.getMinutes()}`
+            }
+            ])
+        }
+
+        if (newMessageRef.current) {
+            newMessageRef.current.value = "";
         }
     }
     return <div>
-        {messages?.map(({ userName, content, time }, index) => <p key={index}>
-            {time} - {userName} : {content}
+        {messages?.map((message, index) => <p key={index}>
+            {message.time} - {message.userName === userName ? 'you' : message.userName} : {message.content}
         </p>)}
 
         <div>
             <textarea rows={1} placeholder="Message" ref={newMessageRef} />
             {/* to use controlled input instead of ref */}
             {/* <textarea rows={1} placeholder="Message" value={message} onChange={(e) => { setMessage(e.target.value) }} /> */}
-            <button onClick={handleSendMessage}>Send</button>
+            <button className="cta" onClick={handleSendMessage}>Send</button>
         </div>
     </div>
 }

@@ -3,6 +3,7 @@ import { useSocket } from './context/socket.context';
 import { useState, useEffect } from 'react';
 import { Messages, Rooms } from './containers';
 import React from 'react';
+import styles from './styles/App.module.css'
 
 function App() {
     const { socket, userName, setUserName } = useSocket(); //use useContext to get value of scket from context
@@ -25,17 +26,18 @@ function App() {
     }, [socket]) //only once when component mounts
 
     if (!userName)
-        return <div>
-            <input type="text" placeholder="UserName" ref={usernameRef} />
-            <button onClick={handleSetUserName}>Login</button>
+        return <div className={styles.usernameWrapper}>
+            <div className={styles.usernameInner}>
+                <input type="text" placeholder="UserName" ref={usernameRef} />
+                <button onClick={handleSetUserName} className='cta'>Login</button>
+            </div>
         </div>
 
     return (<>
-        <div className="App">
-            {socketId}
+        <div className={styles.container}>
+            <Rooms />
+            <Messages />
         </div>
-        <Rooms />
-        <Messages />
     </>
     );
 }

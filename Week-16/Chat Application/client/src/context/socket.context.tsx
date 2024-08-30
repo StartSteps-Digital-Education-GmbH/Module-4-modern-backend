@@ -31,7 +31,7 @@ export const socket = socketIO(SOCKET_URL); //a connection to our backend socket
 export const SocketContext = createContext<Context>({
     socket,
     setUserName: () => "",
-    rooms: [{ id: "", name: "" }],
+    rooms: [],
     setMessages: () => [],
 }); //default value
 
@@ -41,7 +41,7 @@ const SocketProvider = ({ children }: {
 }) => {
     const [userName, setUserName] = useState<string | undefined>("");
     const [roomId, setRoomId] = useState<string | undefined>("");
-    const [rooms, setRoom] = useState<Room[]>([{ id: "", name: "" }]);
+    const [rooms, setRoom] = useState<Room[]>([]);
     const [messages, setMessages] = useState<Message[] | undefined>([]);
 
     const userNameFromLocalStorage = localStorage.getItem("userName");
@@ -54,10 +54,13 @@ const SocketProvider = ({ children }: {
         setRoom(value);
     });
     socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
-        setRoomId(value);
+        console.log("Joined room", value);
+        setRoomId(value.roomId);
+        setMessages(value.messages);
     });
 
     socket.on(EVENTS.SERVER.ROOM_MESSAGE, (value) => {
+        console.log("recived message", value);
         //TODO: We are having an error here as client is not getting back messages from server we will debug it tomrow
         if (messages) {
             setMessages([...messages, value])
