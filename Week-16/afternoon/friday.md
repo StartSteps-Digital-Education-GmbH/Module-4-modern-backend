@@ -1,6 +1,6 @@
 ### WebSocket Chat Application Exercises - Part 4: 
 
-Today you can keep working on what Ahmad showed you this week, experiment with/add new features and styling or take inspiration from the following exercises. 😄
+Today you can keep working on what Ahmad showed you this week, _experiment with/add new features_ and _styling_ or _take inspiration from the following exercises_. 😄
 These exercises build on the chat application you've been working on, adding more advanced features. 
 
 * * * * *
