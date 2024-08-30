@@ -225,7 +225,7 @@ The implementation will be broken down into several steps:
 ## Step 1: Setting Up the Basics
 ----------------------------------
 
-### 1\. Define the `Room` Interface
+### 1\. Define the `Room` Interface in `server/src/socket.ts`
 
 **Why?** Defining an interface ensures that all room objects follow the same structure. This is crucial for maintaining type safety and consistency in a TypeScript application.
 
