@@ -25,7 +25,7 @@ The implementation will be broken down into several steps:
 
 **Instructions:**
 
-1.  **Create a New Interface for Room:**
+1.  **Create a New Interface for Room in `socket.context.tsx`:**
 
     **Explanation:**
 
