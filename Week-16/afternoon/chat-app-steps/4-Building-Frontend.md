@@ -319,3 +319,14 @@ function App() {
 
 export default App;
 ```
+
+
+**Test**
+
+Go to your app and check if you can see the login form:
+![image](https://github.com/user-attachments/assets/59ea87d7-33ff-4041-82d1-3cceaac028bf)
+
+After logging in you should see the rooms and messages:
+![image](https://github.com/user-attachments/assets/b01b0a82-f0d6-4e49-aab7-4ae632280588)
+
+
