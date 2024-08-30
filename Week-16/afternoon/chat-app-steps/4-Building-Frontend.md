@@ -211,43 +211,40 @@ Here, you’re accessing the values provided by the `SocketContext`. These value
 ### Step 2: Create a State for the Username Input
 
 ```typescript
-const usernameRef = useRef<HTMLInputElement>(null);
+const [localUsername, setLocalUsername] = useState<string>(""); // Create state for username input
 ```
 
 
 **Explanation**: 
-`useRef` is used to create a reference to the username input field. This allows you to directly access the input’s value later on, without needing to re-render the component every time the user types something.
+`useState` is used here to manage the local state of the username input field. This allows you to directly control the value of the input and update it whenever the user types something.
 
 **Why?**: 
-While you could manage the input value using `useState`, using `useRef` here avoids unnecessary re-renders and is more efficient when you only need to access the value at a specific moment (e.g., when the user submits the form).
+Using `useState` ensures that the input value is part of the component's state, which triggers re-renders and provides immediate feedback to the user as they type.
 
 ### Step 3: Define the Handler Function
 
 ```typescript
 const handleSetUsername = () => {
-  const usernameValue = usernameRef.current?.value;
-  if (!usernameValue) return;
+  if (!localUsername.trim()) return;
 
-  setUsername(usernameValue);
-  localStorage.setItem("username", usernameValue);
+  setUsername(localUsername);
+  localStorage.setItem("username", localUsername);
 };
+
 ```
 
-**Explanation**:
-- **Extracting Username**: `usernameRef.current?.value` retrieves the value from the input field when the user clicks the "Log In" button.
-- **Validation**: The `if (!usernameValue) return;` line ensures that the function exits early if no username is provided. This is a safeguard against empty inputs.
-- **Updating State and Context**: `setUsername(usernameValue);` updates the local state in the `App` component and simultaneously updates the context, making the username available throughout the app.
-- **Storing in `localStorage`**: `localStorage.setItem("username", usernameValue);` ensures the username is saved even if the user refreshes the page, providing a persistent user experience.
+**Explanation:**
+
+-   **Extracting Username:** The `localUsername` variable holds the current value of the input field.
+-   **Validation:** `if (!localUsername.trim()) return;` ensures the function exits if the username is empty or just whitespace.
+-   **Updating State and Context:** `setUsername(localUsername);` updates both the local state within the `App` component and the global state in the context.
+-   **Storing in `localStorage`:** `localStorage.setItem("username", localUsername);` saves the username to `localStorage`, providing persistence across page refreshes.
 
 ### Why Not Just One?
 
 - **`useState` Alone**: If you used only `useState` without context, you’d limit the scope of the username to the `App` component. Other components wouldn’t be able to access or react to changes in the username unless you passed it down explicitly through props, which can become cumbersome in a larger application.
   
 - **Context Alone**: If you used context without `useState`, you’d lose the ability to manage local component state efficiently. For example, you wouldn’t be able to provide immediate feedback in the UI when the username changes, as context changes might not trigger re-renders in the same way that `useState` does.
-
-### Conclusion
-
-By using both `useState` and context, you get the best of both worlds: efficient local state management within components, and the ability to share and update that state across the entire application. This approach is a **best practice** in React for managing global state like user authentication details, especially in applications where multiple components need access to the same piece of data.
 
 ---
 
