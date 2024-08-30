@@ -149,10 +149,23 @@ The implementation will be broken down into several steps:
 **Why?** Creating new rooms is a fundamental feature of a chat application, allowing users to organize conversations into different topics or groups.
 
 **Instructions:**
-1.  **Create `Rooms.tsx`**
-     - create a file `Rooms.tsx` in `client/src/containers`
+1.  **go to `Rooms.tsx`**
+     - `Rooms.tsx` in `client/src/containers`
 
-2.  **In SocketsProviderCreate State for Room Name:**
+2. **Retrieve Context Values:**
+
+    **Explanation:**
+
+    -   Use the custom `useSockets` hook to access the `socket`, `roomId`, and `rooms` from the context.
+    -   This allows the `RoomsContainer` component to interact with the WebSocket connection and access the current room and list of rooms.
+    -   This is a common practice in React when using context to share data between components.
+
+    **Code:**
+    ```typescript
+     const { socket, roomId, rooms } = useSockets();
+    ```
+    
+2.  **in `RoomsContainer()`: Create State for Room Name:**
 
     **Explanation:**
 
