@@ -11,7 +11,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - Create a config folder in `client/src`
 - Create a `default.ts` file here we will define SOCKET_URL and try to get it from environment variable or simply from our server.
   
-### 1. Create a Context Folder
+### 2. Create a Context Folder
 - **Objective**: Set up a context for managing socket connections in the React app. By centralizing the WebSocket logic in a context provider, you keep your code clean and maintainable, ensuring that only components that need access to the socket connection use it.
 - **Instructions**: 
   - In the `client` directory, create a new folder named `context`.
@@ -21,7 +21,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
       - **Context**: Context in React provides a way to pass data through the component tree without having to pass props down manually at every level. This is a **best practice** for managing global state or connections, like a WebSocket connection, that need to be accessed by multiple components.
 
 
-### 2. Set Up Socket Context
+### 3. Set Up Socket Context
 - **Objective**: Create a context to manage and provide the socket connection throughout the React app.
 
 - **Step 1: Imports**: 
@@ -86,7 +86,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 
 ---
 
-### Step 5: Accessing the Socket in the App Component
+### 4. Accessing the Socket in the App Component
 
 **Objective:** Use the socket connection in the `App` component to manage and display the socket ID.
 1. We will be accessing the socket from context by importing useSockets
@@ -96,7 +96,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
    - When a connect event happens it updates the socket id from context
 4. Then we output the socketId received from the server.
 
-### Step 5.1: Clear Out the Existing `App` Component
+### Step 4.1: Clear Out the Existing `App` Component
 
 **Instructions:**
 
@@ -115,7 +115,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - This step ensures that you’re starting with a clean slate, making it easier to follow the upcoming instructions.
 - **Common Practice:** Clearing out unnecessary code to maintain a clean and focused codebase.
 
-### Step 5.2: Import Necessary Modules
+### Step 4.2: Import Necessary Modules
 
 **Instructions:**
 
@@ -133,7 +133,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - `useSockets` is the custom hook you created earlier to easily access the socket connection from the context.
 - **Common Practice:** Importing necessary modules at the top of the file to keep your code organized.
 
-### Step 5.3: Initialize the Socket and State
+### Step 4.3: Initialize the Socket and State
 
 **Instructions:**
 
@@ -153,7 +153,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - `socketId`: A state variable that will store the ID of the connected socket.
 - **Common Practice:** Initializing state at the beginning of the component to keep track of dynamic values like `socketId`.
 
-### Step 5.4: Set Up a `useEffect` Hook to Listen for the `connect` Event
+### Step 4.4: Set Up a `useEffect` Hook to Listen for the `connect` Event
 
 **Instructions:**
 
@@ -176,7 +176,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - `socket.off("connect")`: Cleans up the event listener when the component unmounts, preventing memory leaks.
 - **Best Practice:** Using `useEffect` to manage side effects like event listeners ensures that your component behaves correctly and efficiently, cleaning up resources when they are no longer needed.
 
-### Step 5.5: Display the `socketId` in the UI
+### Step 4.5: Display the `socketId` in the UI
 
 **Instructions:**
 
@@ -192,7 +192,7 @@ We created socket events on the backend side. Now, to fully utilize them, we nee
 - The `socketId` is rendered inside a `<div>` element, allowing you to see the connected socket’s ID in the UI.
 - **Common Practice:** Returning JSX in the `return` statement to render the UI based on the component’s state.
 
-### Step 5.6: Export the `App` Component
+### Step 4.6: Export the `App` Component
 
 **Instructions:**
 
@@ -225,6 +225,40 @@ function App() {
 
 export default App;
 ```
+
+## 5. Wrap the app
+Index.tsx is the entry point of our frontend application, as it is attaching root component: App to the HTML document
+
+- **Step 1: Import the socketsprovider in index.tsx**
+- **Step 2: In `root.render()` wrap `App` in our `SocketsProvider`.**
+  - This will make the socket available to access anywhere in our app.
+ 
+```typescript
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import SocketsProvider from './context/socket.context';
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
+  <React.StrictMode>
+    <SocketsProvider> //Wraps App making it accessable to all components in our app.
+      <App />
+    </SocketsProvider>
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
 
 ----
 
