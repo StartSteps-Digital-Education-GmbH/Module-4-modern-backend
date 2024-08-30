@@ -75,6 +75,34 @@ The implementation will be broken down into several steps:
     const [rooms, setRooms] = useState<Room[]>([{ id: "", name: "" }]);
     ```
 
+5. ### Handle Room Events in `socket.context.tsx`
+
+-  When the server sends updates about available rooms or when a user joins a room, we need to update the state on the client side so that the UI reflects these changes in real-time.
+
+  **Instructions:**
+  
+  1.  **Listen for Server Events:**
+  
+      **Explanation:**
+  
+      -   You need to listen for `EVENTS.SERVER.ROOMS` and `EVENTS.SERVER.JOINED_ROOM` events from the server.
+      -   When these events are received, the state of `rooms` and `roomId` should be updated accordingly.
+  
+      **Add the Following Code in `socket.context.tsx` within the `SocketsProvider` Component:**
+  
+      typescript
+  
+      Copy code
+  
+      `socket.on(EVENTS.SERVER.ROOMS, (value) => {
+        setRooms(value);
+      });
+  
+      socket.on(EVENTS.SERVER.JOINED_ROOM, (value) => {
+        setRoomId(value);
+      });`
+
+
 6.  **Update the Context Provider Value:**
 
     **Explanation:**
@@ -127,7 +155,7 @@ The implementation will be broken down into several steps:
 1.  **Create `Rooms.tsx`**
      - create a file `Rooms.tsx` in `client/src/containers`
 
-2.  **Create State for Room Name:**
+2.  **In SocketsProviderCreate State for Room Name:**
 
     **Explanation:**
 
