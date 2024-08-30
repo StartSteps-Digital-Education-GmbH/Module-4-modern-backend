@@ -57,8 +57,12 @@ The implementation will be broken down into several steps:
       rooms: Room[];
     }
     ```
+3. **Add `rooms` to `SocketContext`**
+   ```typescript
+   rooms: [{id: "", name: ""}]
+   ```
 
-3.  **Create State for Room ID and Rooms in Context Provider:**
+4.  **Create State for Room ID and Rooms in Context Provider:**
 
     **Explanation:**
     -   Use `useState` to manage `roomId` and `rooms` within the **context provider**.
@@ -71,7 +75,7 @@ The implementation will be broken down into several steps:
     const [rooms, setRooms] = useState<Room[]>([{ id: "", name: "" }]);
     ```
 
-5.  **Update the Context Provider Value:**
+6.  **Update the Context Provider Value:**
 
     **Explanation:**
     -   Pass `roomId` and `rooms` along with their setters through the context provider.
