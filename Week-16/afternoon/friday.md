@@ -1,8 +1,11 @@
-### WebSocket Chat Application Exercises - Part 4: Creative Enhancements
+### WebSocket Chat Application Exercises - Part 4: 
 
-These exercises build on the chat application you've been working on, adding more advanced features. The goal is to help you practice working with user interfaces, state management, and interactions in a React application. Each exercise introduces a new feature, and they build on each other to some extent. However, you can work on them independently if you want to focus on specific functionalities.
+These exercises build on the chat application you've been working on, adding more advanced features. 
+You can keep working on what Ahmad showed you this week, experiment with/add new features and styling or take inspiration from the following exercises. 😄
 
 * * * * *
+
+## Possible Creative Enhancements
 
 ### Exercise 1: Personalized User Profiles
 
