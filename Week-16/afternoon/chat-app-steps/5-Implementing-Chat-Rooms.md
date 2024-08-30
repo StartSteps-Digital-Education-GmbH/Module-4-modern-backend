@@ -302,14 +302,14 @@ const rooms: Room[] = [{ id: "", name: "" }];
 
 **Instructions:**
 . **Set Up the Socket Event Listener in `socket.ts`:**
-        - **Listening for Room Creation Events:** We want to react when the client sends a request to create a new chat room. The `socket.on` method is used to listen for this event, which will be triggered from the client side.
-        - **Logging:** `logger.info` is used to log the name of the room that has been created. This is useful for debugging and monitoring purposes.
-        - **Generating a Unique Room ID:** Each room needs to have a unique identifier. We use the `uuid` library (`v4()` method) to generate this ID.
-        - **Joining the Room:** Once the room is created, the user who created it should automatically join it. This is done using the `socket.join(roomId)` method.
-        - **Broadcasting Updates:** 
-          - `socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms to all clients except the one that triggered the event.
-          - `socket.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms back to the client who created the room.
-          - `socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);` informs the client that they have successfully joined the newly created room.
+  - **Listening for Room Creation Events:** We want to react when the client sends a request to create a new chat room. The `socket.on` method is used to listen for this event, which will be triggered from the client side.
+  - **Logging:** `logger.info` is used to log the name of the room that has been created. This is useful for debugging and monitoring purposes.
+  - **Generating a Unique Room ID:** Each room needs to have a unique identifier. We use the `uuid` library (`v4()` method) to generate this ID.
+  - **Joining the Room:** Once the room is created, the user who created it should automatically join it. This is done using the `socket.join(roomId)` method.
+  - **Broadcasting Updates:** 
+    - `socket.broadcast.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms to all clients except the one that triggered the event.
+    - `socket.emit(EVENTS.SERVER.ROOMS, rooms);` sends the updated list of rooms back to the client who created the room.
+    - `socket.emit(EVENTS.SERVER.JOINED_ROOM, roomId);` informs the client that they have successfully joined the newly created room.
 
 
 **Code:**
