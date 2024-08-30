@@ -211,7 +211,7 @@ Here, you’re accessing the values provided by the `SocketContext`. These value
 ### Step 2: Create a State for the Username Input
 
 ```typescript
-const [localUsername, setLocalUsername] = useState<string>(""); // Create state for username input
+const [usernameInput, setUsernameInput] = useState<string>(""); // Create state for username input
 ```
 
 
@@ -225,10 +225,10 @@ Using `useState` ensures that the input value is part of the component's state, 
 
 ```typescript
 const handleSetUsername = () => {
-  if (!localUsername.trim()) return;
+  if (!usernameInput.trim()) return; //exit function if username is empty
 
-  setUsername(localUsername);
-  localStorage.setItem("username", localUsername);
+  setUsername(usernameInput); // Update the context with the new username
+  localStorage.setItem("username", usernameInput); // Save the username in localStorage
 };
 
 ```
