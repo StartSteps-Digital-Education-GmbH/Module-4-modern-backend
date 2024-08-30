@@ -120,27 +120,57 @@ Objective: Prevent users from accessing chat rooms and messages without entering
    </SocketContext.Provider>
    ```
   - The SocketsProvider component is updated to pass the username and setUsername values through the context. Now, any child component within this provider can access and modify the username.
+ 
+- **Step 4: Create an interface for context shape**
+  - Create an interface defining the context shape after the imports:
+     ```typescript
+      // Define an interface to describe the context shape
+      interface Context {
+         socket: Socket;
+         username?: string;
+         setUsername: (value?: string) => void;
+      }
+     ```
 
 - **Final Version:**
 - 
-    ```typescript
-    // socket.context.tsx
-    export const socket = io(SOCKET_URL);
-    export const SocketContext = createContext({ socket, username: "", setUsername: () => {} });
-    
-    function SocketsProvider({ children }: { children: React.ReactNode }) {
-      const [username, setUsername] = useState<string | undefined>("");
-    
-      return (
-        <SocketContext.Provider value={{ socket, username, setUsername }}>
-          {children}
-        </SocketContext.Provider>
-      );
-    }
-    
-    export const useSockets = () => useContext(SocketContext);
-    export default SocketsProvider;
-    ```
+  ```typescript
+   import { createContext, useContext, useState } from 'react';
+   import io, { Socket } from 'socket.io-client';
+   import { SOCKET_URL } from '../config/default';
+   
+   // Define an interface to describe the context shape
+   interface Context {
+     socket: Socket;
+     username?: string;
+     setUsername: (value?: string) => void;
+   }
+   
+   // Initialize a connection with the backend socket server
+   export const socket = io(SOCKET_URL);
+   
+   // Create a context to store the socket instance and other values
+   export const SocketContext = createContext<Context>({
+     socket,
+     setUsername: () => {} // Provide a default no-op function to match the expected type
+   });
+   
+   // Provider component to wrap around the app and provide the socket instance to all child components
+   function SocketsProvider({ children }: { children: React.ReactNode }) {
+     const [username, setUsername] = useState<string | undefined>("");
+   
+     return (
+       // Pass the socket, username, and setUsername through the context provider
+       <SocketContext.Provider value={{ socket, username, setUsername }}>
+         {children} {/* Render any child components passed to the provider */}
+       </SocketContext.Provider>
+     );
+   }
+   
+   // Custom hook to allow easy access to the socket context in any component
+   export const useSockets = () => useContext(SocketContext);
+   export default SocketsProvider;
+   ```
 
 ---
 
