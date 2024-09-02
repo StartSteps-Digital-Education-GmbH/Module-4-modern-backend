@@ -13,6 +13,23 @@ In this chapter, we'll enhance our chat application by allowing users to join ex
 -   **User Experience**: Allowing users to join and switch between different rooms enhances the user experience by making the chat application more dynamic and interactive.
 -   **Best Practices**: Implementing this feature using context and socket events ensures that our application remains scalable, maintainable, and follows best practices in real-time communication.
 
+### Step 1: Extend EVENTS on client and serverside:
+```
+export const EVENTS = {
+    connection: "connection",
+    CLIENT:{
+        CREATE_ROOM: "CREATE_ROOM",
+        SEND_ROOM_MESSAGE: "SEND_ROOM_MESSAGE",
+        JOIN_ROOM: "JOIN_ROOM"
+    },//events that client can emit, and the server can listen to(on)
+    SERVER:{
+        ROOMS: "ROOMS",
+        JOINED_ROOM: "JOINED_ROOM",
+        ROOM_MESSAGE: "ROOM_MESSAGE"
+    }//events that server can emit, and the client can listen to(on)
+}
+```
+
 ### **Step 1: Handle Room Joining on the Client Side**
 
 **Objective**: Implement the client-side logic to allow users to join a room when they click on it.
