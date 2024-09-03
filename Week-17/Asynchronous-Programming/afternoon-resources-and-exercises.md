@@ -4,10 +4,10 @@
 
 If you to dive deeper into the concepts, check out these resources:
 
--   **Intro into Promise:** [How to use async/await with a Promise in TypeScript](https://www.geeksforgeeks.org/how-to-use-async-await-with-a-promise-in-typescript/)
--   **Going deeper into Promise and async/await:** [Introduction to async/await in TypeScript](https://www.atatus.com/blog/introduction-to-async-await-in-typescript/)
--   **Example:** [Asynchronous programming in TypeScript](https://medium.com/grid-solutions/asynchronous-programming-in-typescript-has-been-greatly-simplified-with-the-introduction-of-d104775ed3ab)
--   **Another Example of Promise with async/await:** [TypeScript async/await example](https://www.typescriptlang.org/play/#example/async-await)
+-   [Intro into Promise](https://www.geeksforgeeks.org/how-to-use-async-await-with-a-promise-in-typescript/)
+-   [Going deeper into Promise and async/await:](https://www.atatus.com/blog/introduction-to-async-await-in-typescript/)
+-   [Example](https://medium.com/grid-solutions/asynchronous-programming-in-typescript-has-been-greatly-simplified-with-the-introduction-of-d104775ed3ab)
+-   [Another Example](https://www.typescriptlang.org/play/#example/async-await)
 
 * * * * *
 
