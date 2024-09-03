@@ -87,6 +87,53 @@ If you to dive deeper into the concepts, check out these resources:
 
 * * * * *
 
+### Exercise 3: Handling Errors with Async/Await
+
+**Task:**
+
+1.  Create a Promise that randomly either resolves or rejects after 1 second.
+2.  Use `async/await` to handle the result of the Promise.
+3.  If the Promise resolves, log the success message.
+4.  If the Promise rejects, catch the error and log an error message.
+
+**Hints:**
+
+-   Use `Math.random()` to randomly resolve or reject.
+-   Use `try/catch` within the `async` function to handle the Promise result.
+
+**Example Solution**
+
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
+
+  ```typescript
+  const randomPromise = new Promise<string>((resolve, reject) => {
+    setTimeout(() => {
+        if (Math.random() > 0.5) {
+            resolve("Success!");
+        } else {
+            reject("Something went wrong!");
+        }
+    }, 1000);
+});
+
+async function handleRandomPromise() {
+    try {
+        const result = await randomPromise;
+        console.log(result); // If resolved, "Success!" is logged
+    } catch (error) {
+        console.log(error); // If rejected, "Something went wrong!" is logged
+    }
+  }
+  
+  handleRandomPromise();
+  ```
+</details>
+
+* * * * *
+
 #### **Exercise 3 (Try/Catch): Basic Try/Catch with Async/Await**
 
 **Objective:** Understand error handling in asynchronous functions using `try/catch`.
