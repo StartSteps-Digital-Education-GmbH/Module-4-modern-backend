@@ -134,7 +134,7 @@ If you to dive deeper into the concepts, check out these resources:
 
 * * * * *
 
-#### **Exercise 4: Finally Block Usage (15 minutes)**
+#### **Exercise 4: Finally Block Usage**
 
 **Objective:** Learn how to use the `finally` block to ensure cleanup actions run regardless of the outcome.
 
@@ -146,36 +146,44 @@ If you to dive deeper into the concepts, check out these resources:
     -   Log any potential error.
     -   In the `finally` block, log a message like "Cleanup complete".
 
+**Hints:**
+
+-   The `finally` block is used to execute code after `try` and `catch` blocks, regardless of the result.
+-   
 **Code Example:**
 
-typescript
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-Copy code
-
-`async function fetchConfig(): Promise<string> {
+  ```typescript
+  async function fetchConfig(): Promise<string> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve("Config loaded");
         }, 1000);
     });
-}
-
-async function handleConfig() {
-    try {
-        const config = await fetchConfig();
-        console.log(config); // "Config loaded"
-    } catch (error) {
-        console.log("Error loading config:", error.message);
-    } finally {
-        console.log("Cleanup complete"); // Always runs
-    }
-}
-
-handleConfig();`
+  }
+  
+  async function handleConfig() {
+      try {
+          const config = await fetchConfig();
+          console.log(config); // "Config loaded"
+      } catch (error) {
+          console.log("Error loading config:", error.message);
+      } finally {
+          console.log("Cleanup complete"); // Always runs
+      }
+  }
+  
+  handleConfig();
+  ```
+</details>
 
 * * * * *
 
-### **Second Hour: Apply Concepts to More Complex Scenarios**
+### Apply Concepts to More Complex Scenarios**
 
 #### **Exercise 5: Parallel Execution with Async/Await (20 minutes)**
 
