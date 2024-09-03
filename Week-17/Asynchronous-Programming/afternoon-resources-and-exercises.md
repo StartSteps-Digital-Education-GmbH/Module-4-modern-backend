@@ -87,7 +87,7 @@ If you to dive deeper into the concepts, check out these resources:
 
 * * * * *
 
-#### **Exercise 1 (Try/Catch): Basic Try/Catch with Async/Await (15 minutes)**
+#### **Exercise 3 (Try/Catch): Basic Try/Catch with Async/Await**
 
 **Objective:** Understand error handling in asynchronous functions using `try/catch`.
 
@@ -97,30 +97,40 @@ If you to dive deeper into the concepts, check out these resources:
 2.  Inside `fetchData`, simulate an error by rejecting the Promise with an error message.
 3.  Use `try/catch` in another async function to handle the rejection and log the error message.
 
+**Hints:**
+
+-   Use `throw` or `reject` to simulate an error inside a Promise.
+-   Catch the error using `catch` inside the `try/catch` block.
+
+  
 **Code Example:**
 
-typescript
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-Copy code
-
-`async function fetchData(): Promise<string> {
+  ```typescript
+  async function fetchData(): Promise<string> {
     return new Promise((_, reject) => {
         setTimeout(() => {
             reject(new Error("Failed to fetch data"));
         }, 1000);
     });
-}
-
-async function handleData() {
-    try {
-        const data = await fetchData();
-        console.log(data); // This will not run because an error is thrown
-    } catch (error) {
-        console.log(error.message); // "Failed to fetch data" is logged
-    }
-}
-
-handleData();`
+  }
+  
+  async function handleData() {
+      try {
+          const data = await fetchData();
+          console.log(data); // This will not run because an error is thrown
+      } catch (error) {
+          console.log(error.message); // "Failed to fetch data" is logged
+      }
+  }
+  
+  handleData();
+  ```
+</details>
 
 * * * * *
 
