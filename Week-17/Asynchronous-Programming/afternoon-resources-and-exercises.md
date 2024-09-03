@@ -2,7 +2,7 @@
 
 ### **Resources**
 
-If you to dive deeper into the concepts, check out these resources:
+I gathered some resources you could go through this afternoon:
 
 -   [Intro into Promise](https://www.geeksforgeeks.org/how-to-use-async-await-with-a-promise-in-typescript/)
 -   [Going deeper into Promise and async/await:](https://www.atatus.com/blog/introduction-to-async-await-in-typescript/)
@@ -10,6 +10,10 @@ If you to dive deeper into the concepts, check out these resources:
 -   [Another Example](https://www.typescriptlang.org/play/#example/async-await)
 
 * * * * *
+
+### Exercises
+If you want to practice asynchronous programming, you can practice with the following exercises.
+These are not mandatory, nor do you have to finish them all; They are just here to practice with these topics.
 
 #### **Exercise 1: Basic Promise Creation and Consumption**
 
