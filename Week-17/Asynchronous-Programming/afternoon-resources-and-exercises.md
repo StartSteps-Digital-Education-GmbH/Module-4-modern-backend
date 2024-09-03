@@ -11,7 +11,7 @@ If you to dive deeper into the concepts, check out these resources:
 
 * * * * *
 
-#### **Exercise 1: Basic Promise Creation and Consumption (15 minutes)**
+#### **Exercise 1: Basic Promise Creation and Consumption**
 
 **Objective:** Get comfortable with creating and consuming Promises using `then`.
 
@@ -20,25 +20,35 @@ If you to dive deeper into the concepts, check out these resources:
 1.  Create a simple Promise that resolves to the string "Hello, World!" after 2 seconds.
 2.  Consume the Promise using `then` and log the result to the console.
 
+**Hints:**
+
+-   Use `setTimeout` inside the Promise constructor to simulate the delay.
+-   The `.then()` method is used to handle the resolved value of the Promise.
+
+
 **Code Example:**
+<details>
+  <summary>
+    Click to reveal the solution! Please try for yourself first. 😃
+  </summary>
 
-typescript
-
-Copy code
-
-`const greetingPromise = new Promise<string>((resolve, reject) => {
+  ```typescript
+  const greetingPromise = new Promise<string>((resolve, reject) => {
     setTimeout(() => {
         resolve("Hello, World!");
     }, 2000);
-});
+    });
+    
+    greetingPromise.then((message) => {
+        console.log(message); // After 2 seconds, "Hello, World!" should be logged
+    });
 
-greetingPromise.then((message) => {
-    console.log(message); // After 2 seconds, "Hello, World!" should be logged
-});`
+  ```
+</details>
 
 * * * * *
 
-#### **Exercise 2: Convert Promise to Async/Await (15 minutes)**
+#### **Exercise 2: Convert Promise to Async/Await**
 
 **Objective:** Learn to work with `async/await` syntax by converting a Promise-based function.
 
@@ -46,24 +56,34 @@ greetingPromise.then((message) => {
 
 1.  Take the code from Exercise 1 and modify it to use `async/await` instead of `.then()`.
 
+**Hints:**
+
+-   Use an `async` function to utilize the `await` keyword.
+-   `await` can only be used inside functions marked with the `async` keyword.
+
 **Code Example:**
 
-typescript
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-Copy code
-
-`const greetingPromise = new Promise<string>((resolve, reject) => {
+  ```typescript
+  const greetingPromise = new Promise<string>((resolve, reject) => {
     setTimeout(() => {
         resolve("Hello, World!");
     }, 2000);
-});
+    });
+    
+    async function displayGreeting() {
+        const message = await greetingPromise;
+        console.log(message); // After 2 seconds, "Hello, World!" should be logged
+    }
+    
+    displayGreeting();
 
-async function displayGreeting() {
-    const message = await greetingPromise;
-    console.log(message); // After 2 seconds, "Hello, World!" should be logged
-}
-
-displayGreeting();`
+  ```
+</details>
 
 * * * * *
 
