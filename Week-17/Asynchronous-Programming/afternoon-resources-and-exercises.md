@@ -134,7 +134,7 @@ async function handleRandomPromise() {
 
 * * * * *
 
-#### **Exercise 3 (Try/Catch): Basic Try/Catch with Async/Await**
+#### **Exercise 4 (Try/Catch): Basic Try/Catch with Async/Await**
 
 **Objective:** Understand error handling in asynchronous functions using `try/catch`.
 
@@ -181,7 +181,7 @@ async function handleRandomPromise() {
 
 * * * * *
 
-#### **Exercise 4: Finally Block Usage**
+#### **Exercise 5: Finally Block Usage**
 
 **Objective:** Learn how to use the `finally` block to ensure cleanup actions run regardless of the outcome.
 
@@ -232,7 +232,7 @@ async function handleRandomPromise() {
 
 ### Apply Concepts to More Complex Scenarios**
 
-#### **Exercise 5: Parallel Execution with Async/Await (20 minutes)**
+#### **Exercise 6: Parallel Execution with Async/Await**
 
 **Objective:** Practice running multiple asynchronous operations in parallel using `Promise.all`.
 
@@ -243,53 +243,96 @@ async function handleRandomPromise() {
     -   `taskTwo`: Resolves with "Task Two Complete" after 2 seconds.
 2.  Execute both functions in parallel using `Promise.all` and log the results once both tasks are complete.
 
+**Hints:**
+
+-   `Promise.all` takes an array of Promises and returns a single Promise that resolves when all Promises in the array have resolved.
+
+  
 **Code Example:**
 
-typescript
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-Copy code
-
-`async function taskOne(): Promise<string> {
+  ```typescript
+  async function taskOne(): Promise<string> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve("Task One Complete");
         }, 3000);
     });
-}
+  }
+  
+  async function taskTwo(): Promise<string> {
+      return new Promise((resolve) => {
+          setTimeout(() => {
+              resolve("Task Two Complete");
+          }, 2000);
+      });
+  }
+  
+  async function executeTasksInParallel() {
+      const results = await Promise.all([taskOne(), taskTwo()]);
+      console.log(results); // After 3 seconds, ["Task One Complete", "Task Two Complete"] is logged
+  }
+  
+  executeTasksInParallel();
 
-async function taskTwo(): Promise<string> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve("Task Two Complete");
-        }, 2000);
-    });
-}
-
-async function executeTasksInParallel() {
-    const results = await Promise.all([taskOne(), taskTwo()]);
-    console.log(results); // After 3 seconds, ["Task One Complete", "Task Two Complete"] is logged
-}
-
-executeTasksInParallel();`
-
+  ```
+</details>
 * * * * *
 
-#### **Exercise 2 (Try/Catch): Nested Try/Catch Blocks (20 minutes)**
-
-**Objective:** Learn how to handle errors from different asynchronous operations separately.
+### Exercise 7: Nested Try/Catch Blocks
 
 **Task:**
 
-1.  Create two async functions, `fetchUser` and `fetchPosts`, that may randomly fail.
-2.  Use nested `try/catch` blocks to handle errors from each function separately, and log which operation failed.
+1.  Create two async functions:
+    -   `fetchUser`: Simulate fetching user data and randomly resolve or reject with an error.
+    -   `fetchPosts`: Simulate fetching posts for a user and randomly resolve or reject with an error.
+2.  In a third function, use nested `try/catch` blocks to handle errors from both functions separately.
+3.  Log appropriate error messages depending on which function failed.
+
+**Hints:**
+
+-   Use `Math.random()` to randomly reject the Promises.
+-   Use nested `try/catch` blocks to catch errors separately for each operation.
+
+**More Elaborate Task Instructions**
+<details>
+  <summary>
+    **Click to reveal task instructions with more steps, if needed.** 😃
+  </summary>
+
+  **Task Overview:**
+
+  -   You have two asynchronous functions: `fetchUser` and `fetchPosts`.
+  -   Both functions may randomly fail (i.e., they may reject the Promise).
+  -   Your goal is to handle the errors from these two functions separately, so that you know exactly which operation failed.
+  
+  **Detailed Steps:**
+  
+  1.  **Create the `fetchUser` function:**
+  
+      -   This function simulates fetching user data. It will either resolve with "User data" or reject with an error.
+      -   To simulate randomness, use `Math.random()`. If the result is greater than 0.5, resolve the Promise; otherwise, reject it with an error message.
+  2.  **Create the `fetchPosts` function:**
+  
+      -   This function simulates fetching posts for a user. It works similarly to `fetchUser`, but with a different error message if it fails.
+  3.  **Handle errors in `handleUserData`:**
+  
+      -   Use a `try/catch` block around the call to `fetchUser`. If `fetchUser` fails, the `catch` block will run, and you can log the error.
+      -   Inside the `try` block (after successfully fetching the user data), use another `try/catch` block to handle errors from `fetchPosts`.
+  </details>
 
 **Code Example:**
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-typescript
-
-Copy code
-
-`async function fetchUser(): Promise<string> {
+  ```typescript
+  async function fetchUser(): Promise<string> {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             if (Math.random() > 0.5) {
@@ -299,82 +342,100 @@ Copy code
             }
         }, 1000);
     });
-}
+  }
+  
+  async function fetchPosts(): Promise<string> {
+      return new Promise((resolve, reject) => {
+          setTimeout(() => {
+              if (Math.random() > 0.5) {
+                  resolve("User posts");
+              } else {
+                  reject(new Error("Failed to fetch posts"));
+              }
+          }, 1000);
+      });
+  }
+  
+  async function handleUserData() {
+      try {
+          const user = await fetchUser();
+          console.log(user); // "User data" is logged if fetchUser is successful
+  
+          try {
+              const posts = await fetchPosts();
+              console.log(posts); // "User posts" is logged if fetchPosts is successful
+          } catch (postError) {
+              console.log(postError.message); // Logs "Failed to fetch posts"
+          }
+  
+      } catch (userError) {
+          console.log(userError.message); // Logs "Failed to fetch user"
+      }
+  }
+  
+  handleUserData();
+  ```
+</details>
 
-async function fetchPosts(): Promise<string> {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (Math.random() > 0.5) {
-                resolve("User posts");
-            } else {
-                reject(new Error("Failed to fetch posts"));
-            }
-        }, 1000);
-    });
-}
-
-async function handleUserData() {
-    try {
-        const user = await fetchUser();
-        console.log(user); // "User data" is logged if fetchUser is successful
-
-        try {
-            const posts = await fetchPosts();
-            console.log(posts); // "User posts" is logged if fetchPosts is successful
-        } catch (postError) {
-            console.log(postError.message); // Logs "Failed to fetch posts"
-        }
-
-    } catch (userError) {
-        console.log(userError.message); // Logs "Failed to fetch user"
-    }
-}
-
-handleUserData();`
 
 * * * * *
 
-#### **Exercise 3 (Try/Catch): Propagating Errors (20 minutes)**
-
-**Objective:** Understand how to pass (or "propagate") errors up the call stack to be handled at a higher level.
+### Exercise 8: Propagating Errors
 
 **Task:**
+-   You'll create a function that intentionally throws an error.
+-   Another function will catch this error but instead of handling it, will rethrow it.
+-   A third function will catch the rethrown error and handle it.
 
-1.  Create a function `fetchData` that throws an error.
-2.  Create another function `processData` that calls `fetchData` and rethrows the error.
-3.  Create a third function `handleData` that catches the rethrown error and logs it.
+**Detailed Steps:**
 
+1.  **Create the `fetchData` function:**
+
+    -   This function simply rejects with an error after a delay. The error simulates a failure in data fetching.
+2.  **Create the `processData` function:**
+
+    -   This function calls `fetchData` and wraps it in a `try/catch` block.
+    -   Instead of handling the error, `processData` will rethrow the error using `throw`.
+3.  **Handle the rethrown error in `handleData`:**
+
+    -   In this function, you call `processData`. Since `processData` might rethrow an error, you need to catch it here and handle it (e.g., by logging an error message).
+
+  
 **Code Example:**
+<details>
+  <summary>
+    **Click to reveal the solution! Please try for yourself first.** 😃
+  </summary>
 
-typescript
-
-Copy code
-
-`async function fetchData(): Promise<string> {
+  ```typescript
+  async function fetchData(): Promise<string> {
     return new Promise((_, reject) => {
         setTimeout(() => {
             reject(new Error("Error in fetchData"));
         }, 1000);
     });
-}
+  }
+  
+  async function processData() {
+      try {
+          const data = await fetchData();
+          console.log(data); // This will not run due to the error
+      } catch (error) {
+          throw error; // Rethrow the error
+      }
+  }
+  
+  async function handleData() {
+      try {
+          await processData();
+      } catch (error) {
+          console.log("Caught in handleData: ", error.message); // Logs "Error in fetchData"
+      }
+  }
+  
+  handleData();
+  ```
+</details>
 
-async function processData() {
-    try {
-        const data = await fetchData();
-        console.log(data); // This will not run due to the error
-    } catch (error) {
-        throw error; // Rethrow the error
-    }
-}
-
-async function handleData() {
-    try {
-        await processData();
-    } catch (error) {
-        console.log("Caught in handleData: ", error.message); // Logs "Error in fetchData"
-    }
-}
-
-handleData();`
 
 * * * * *
