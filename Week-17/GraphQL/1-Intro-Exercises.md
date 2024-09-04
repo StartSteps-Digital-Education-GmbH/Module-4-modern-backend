@@ -37,7 +37,7 @@ Write a query to find all countries that:
 
 Hint: Use filtering and field selection creatively.
 
-### Exercise 2: Languages with Specific Characteristics - NOT WORKING WITH THIS SCHEMA
+~### Exercise 2: Languages with Specific Characteristics~ - NOT WORKING WITH THIS SCHEMA
 
 Create a query that fetches all languages that:
 
@@ -53,7 +53,7 @@ Generate a detailed report for each continent that includes:
 
 -   The name of the continent.
 
--   The number of countries in each continent.
+-   ~The number of countries in each continent~
 
 -   The names of all countries within each continent.
 
@@ -79,7 +79,7 @@ Create a query that groups countries by their currency. For each unique currency
 
 Hint: This will involve nested queries and some creative structuring.
 
-### Exercise 6: Multi-Level Data Query - NOT WORKING WITH THIS SCHEMA
+~### Exercise 6: Multi-Level Data Query~ - NOT WORKING WITH THIS SCHEMA
 
 Write a query that retrieves:
 
@@ -90,6 +90,16 @@ Write a query that retrieves:
 -   The emoji flag of each country.
 
 Hint: Combine language filtering, continent data, and emoji fields.
+
+* * * * *
+
+## Exercises Added Later
+
+### Exercise 7
+
+Write a query that retrieves
+
+- Countries whose name contains "i", but do not end with "land"
 
 * * * * *
 
@@ -266,3 +276,21 @@ Solutions :
   }
   ```
   </details>
+
+
+### Exercise 7
+<details>
+  <summary>
+    Click to reveal solution
+  </summary>
+
+  ```typescript
+  {
+    countries(filter: { 
+      name: { regex: ".*i.*", ne: ".*land$" } 
+    }) {
+      name
+    }
+  }
+  ```
+<details></details>
