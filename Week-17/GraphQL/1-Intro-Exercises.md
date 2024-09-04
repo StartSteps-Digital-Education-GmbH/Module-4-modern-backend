@@ -196,6 +196,53 @@ Solutions :
 
   ```typescript
   {
+    countries(filter: { code: { in: ["US", "IN"] } }) {
+      name
+      states {
+        name
+        country {
+          name
+        }
+      }
+    }
+  }
+  ```
+  
+  OR
+  
+  ```typescript
+  {
+    countries(filter: { code: { in: ["US", "IN"] } }) {
+      name
+      states {
+        name
+      }
+    }
+  }
+  ```
+
+
+  ```typescript
+  {
+  	US: country(code: "US") {
+    states {
+      name
+      country {name}
+    	}
+  	}
+  IN: country(code: "IN") {
+    states {
+      name
+      country {name}
+    	}
+  	}
+  }
+  ```
+
+  OR
+  
+  ```typescript
+  {
   
     US: country(code: "US") {
   
@@ -222,19 +269,6 @@ Solutions :
     }
   
   }
-```
-
-OR
-
-```typescript
-{
-  countries(filter: { code: { in: ["US", "IN"] } }) {
-    name
-    states {
-      name
-    }
-  }
-}
 ```
 
 </details>
