@@ -223,6 +223,20 @@ Solutions :
   
   }
 ```
+
+OR
+
+```typescript
+{
+  countries(filter: { code: { in: ["US", "IN"] } }) {
+    name
+    states {
+      name
+    }
+  }
+}
+```
+
 </details>
 
 ### Exercise 5: Group Countries by Currency
