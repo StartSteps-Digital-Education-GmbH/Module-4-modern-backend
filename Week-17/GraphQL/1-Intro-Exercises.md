@@ -37,7 +37,7 @@ Write a query to find all countries that:
 
 Hint: Use filtering and field selection creatively.
 
-### Exercise 2: Languages with Specific Characteristics
+### Exercise 2: Languages with Specific Characteristics - NOT WORKING WITH THIS SCHEMA
 
 Create a query that fetches all languages that:
 
@@ -79,7 +79,7 @@ Create a query that groups countries by their currency. For each unique currency
 
 Hint: This will involve nested queries and some creative structuring.
 
-### Exercise 6: Multi-Level Data Query
+### Exercise 6: Multi-Level Data Query - NOT WORKING WITH THIS SCHEMA
 
 Write a query that retrieves:
 
