@@ -122,6 +122,54 @@ Inside the `gql` template, create a `type Mutation`. Define the following 4 muta
 
 **Hint**: Use `find()` to locate students and `findIndex()` for removing students by ID.
 
+
+#### Solutions
+<details>
+  <summary>Click to reveal solutions for exercise 2</summary>
+  ```typescript
+  import { Student } from './types';
+
+  let students: Student[] = [];
+  
+  export const resolvers = {
+    Query: {
+      students: () => students,
+      student: (_, { id }: { id: string }) => students.find(s => s.id === id),
+    },
+    Mutation: {
+      addStudent: (_, { firstName, lastName, grade }: { firstName: string, lastName: string, grade: number }): Student => {
+        const newStudent: Student = {
+          id: String(students.length + 1),
+          firstName,
+          lastName,
+          grade,
+          courses: []
+        };
+        students.push(newStudent);
+        return newStudent;
+      },
+      enrollStudentInCourse: (_, { studentId, courseName }: { studentId: string, courseName: string }): Student => {
+        const student = students.find(s => s.id === studentId);
+        if (!student) throw new Error("Student not found");
+        student.courses.push(courseName);
+        return student;
+      },
+      updateStudentGrade: (_, { studentId, newGrade }: { studentId: string, newGrade: number }): Student => {
+        const student = students.find(s => s.id === studentId);
+        if (!student) throw new Error("Student not found");
+        student.grade = newGrade;
+        return student;
+      },
+      removeStudent: (_, { studentId }: { studentId: string }): boolean => {
+        const index = students.findIndex(s => s.id === studentId);
+        if (index === -1) return false;
+        students.splice(index, 1);
+        return true;
+      }
+    }
+  };
+  ```
+</details>
 * * * * *
 
 ### Exercise 3: Set Up the Server
@@ -136,6 +184,30 @@ Inside the `gql` template, create a `type Mutation`. Define the following 4 muta
 -   Set up an Apollo Server instance with `typeDefs` and `resolvers`, and apply it as middleware to the Express app.
 -   Start the server on port 4000, and log the GraphQL endpoint URL to the console.
 
+#### Solutions
+<details>
+  <summary>Click to reveal solutions for exercise 2</summary>
+  ```typescript
+  import express from 'express';
+  import { ApolloServer } from 'apollo-server-express';
+  import { typeDefs } from './schema';
+  import { resolvers } from './resolvers';
+  
+  async function startServer() {
+    const app = express();
+    const server = new ApolloServer({ typeDefs, resolvers });
+  
+    await server.start();
+    server.applyMiddleware({ app });
+  
+    app.listen({ port: 4000 }, () =>
+      console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
+    );
+  }
+  
+  startServer();
+  ```
+</details>
 * * * * *
 
 ### Exercise 4: Run the Server
@@ -144,9 +216,6 @@ Inside the `gql` template, create a `type Mutation`. Define the following 4 muta
 
 -   Open the `package.json` file and add the following script to the `"scripts"` section:
 
-    json
-
-    Copy code
 
     `"scripts": {
       "start": "ts-node src/server.ts"
@@ -156,9 +225,6 @@ Inside the `gql` template, create a `type Mutation`. Define the following 4 muta
 
 -   Run the server using the following command:
 
-    bash
-
-    Copy code
 
     `npm start`
 
@@ -205,6 +271,147 @@ Exercise 5: Tasks for Students
 4. Remove a student by `id`, return true if succesful and false if unsuccesful
 
 
-### Exercise 2: Implement Resolvers
+### Solutions to exercise 5
 ---------------------------
+
+Solutions to Student Management System Tasks
+Add a New Student
+Mutation:
+
+mutation {
+  addStudent(firstName: "Jane", lastName: "Doe", grade: 10) {
+    id
+    firstName
+    lastName
+    grade
+    courses
+  }}
+Expected Result:
+
+{
+  "data": {
+    "addStudent": {
+      "id": "1",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "grade": 10,
+      "courses": []
+    }
+  }}
+Enroll a Student in a Course
+Mutation:
+
+mutation {
+  enrollStudentInCourse(studentId: "1", courseName: "Mathematics") {
+    id
+    firstName
+    lastName
+    courses
+  }
+}
+Expected Result:
+
+{
+  "data": {
+    "enrollStudentInCourse": {
+      "id": "1",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "courses": ["Mathematics"]
+    }
+  }}
+Update a Student's Grade
+Mutation:
+mutation {
+  updateStudentGrade(studentId: "1", newGrade: 11) {
+    id
+    firstName
+    lastName
+    grade
+  }}
+Expected Result:
+
+{
+  "data": {
+    "updateStudentGrade": {
+      "id": "1",
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "grade": 11
+    }
+  }}
+Remove a Student
+Mutation:
+
+mutation {
+  removeStudent(studentId: "1")}
+Expected Result:
+
+{
+  "data": {
+    "removeStudent": true
+  }}
+Query Specific Student
+First, let's add a new student:
+
+mutation {
+  addStudent(firstName: "John", lastName: "Smith", grade: 9) {
+    id
+}}
+Then, query for this student:
+
+query {
+  student(id: "2") {
+    id
+    firstName
+    lastName
+    grade
+    courses
+  }}
+Expected Result:
+
+{
+  "data": {
+    "student": {
+      "id": "2",
+      "firstName": "John",
+      "lastName": "Smith",
+      "grade": 9,
+      "courses": []
+    }
+  }}
+
+Bonus: Query All Students
+To verify the state of our student list after these operations:
+
+query {
+  students {
+    id
+    firstName
+    lastName
+    grade
+    courses
+  }}
+
+
+Expected Result (assuming we've only added John Smith after removing Jane Doe):
+
+{
+  "data": {
+    "students": [
+      {
+        "id": "2",
+        "firstName": "John",
+        "lastName": "Smith",
+        "grade": 9,
+        "courses": []
+      }
+    ]
+  }
+}
+
+
+
+
+
 
