@@ -278,6 +278,7 @@ Solutions to Student Management System Tasks
 Add a New Student
 Mutation:
 
+```typescript
 mutation {
   addStudent(firstName: "Jane", lastName: "Doe", grade: 10) {
     id
@@ -409,7 +410,7 @@ Expected Result (assuming we've only added John Smith after removing Jane Doe):
     ]
   }
 }
-
+```
 
 
 
