@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { Book, BookInput } from "./types.js";
 import books from "./data.js";
+import { ApolloError } from "apollo-server-express";
 
 export const resolvers = {
     Query: {
@@ -20,11 +21,12 @@ export const resolvers = {
     Mutation: {
         addBook:(_, props: {input: BookInput} ): Book => {
             const {input} = props;
-            const {title, author} = input;
+            const {title, author, genre} = input;
             const newBook = {
                 id: String(books.length + 1),
                 title, //title: title
                 author,
+                genre,
             }
             books.push(newBook);
             return newBook;
@@ -35,13 +37,13 @@ export const resolvers = {
                 const [deletedBook] = books.splice(index, 1);
                 return deletedBook;
             } else {
-                throw new Error("Book not found");
+                throw new ApolloError("Book not found");
             }
         },
         updateBook: (_, {id, title, author}: {id: string, title: string, author: string}): Book => {
             const index = books.findIndex((book) => book.id === id);
             if (index === -1) {
-                throw new Error("Book not found");
+                throw new ApolloError("Book not found");
             }
             books[index].title = title;
             books[index].author = author;

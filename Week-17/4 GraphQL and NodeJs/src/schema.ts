@@ -1,15 +1,25 @@
 import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
+    enum Genre {
+        FICTION
+        NON_FICTION
+        SCIENCE_FICTION
+        MYSTERY
+        THRILLER
+    }
+
     type Book {
         id: ID!
         title: String!
         author: String!
+        genre: Genre
     }
 
     input BookInput {
         title: String!
         author: String!
+        genre: Genre
     }
 
     type TODOAPIData {
