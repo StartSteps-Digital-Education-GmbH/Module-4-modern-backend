@@ -7,6 +7,11 @@ const typeDefs = gql`
         author: String!
     }
 
+    input BookInput {
+        title: String!
+        author: String!
+    }
+
     type TODOAPIData {
         id: ID!, 
         todo: String,
@@ -21,7 +26,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addBook(title: String!, author: String!): Book!
+        addBook(input: BookInput!): Book!
         deleteBook(id: ID!): Book!
         updateBook(id: ID!, title: String!, author: String!): Book!
     }

@@ -1,26 +1,6 @@
 import fetch from "node-fetch";
-interface Book {
-    id: string;
-    title: string;
-    author: string;
-}
-const books: Book[] = [
-    {
-        id: "1",
-        title: "Harry Potter and the Sorcerer's Stone",
-        author: "J.K. Rowling",
-    },
-    {
-        id: "2",
-        title: "Jurassic Park",
-        author: "Michael Crichton",
-    },
-    {
-        id: "3",
-        title: "Jurassic Park",
-        author: "Michael Crichton",
-    }
-];
+import { Book, BookInput } from "./types.js";
+import books from "./data.js";
 
 export const resolvers = {
     Query: {
@@ -38,7 +18,9 @@ export const resolvers = {
         },
     },
     Mutation: {
-        addBook:(_, {title, author}: {title: string, author: string}): Book => {
+        addBook:(_, props: {input: BookInput} ): Book => {
+            const {input} = props;
+            const {title, author} = input;
             const newBook = {
                 id: String(books.length + 1),
                 title, //title: title
