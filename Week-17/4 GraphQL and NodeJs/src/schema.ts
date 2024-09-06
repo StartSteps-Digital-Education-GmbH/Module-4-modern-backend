@@ -9,17 +9,21 @@ const typeDefs = gql`
         THRILLER
     }
 
+    scalar Date
+
     type Book {
         id: ID!
         title: String!
         author: String!
         genre: Genre
+        publishedDate: Date 
     }
 
     input BookInput {
         title: String!
         author: String!
         genre: Genre
+        date: Date
     }
 
     type TODOAPIData {
