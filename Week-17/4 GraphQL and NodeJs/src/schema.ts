@@ -6,10 +6,18 @@ const typeDefs = gql`
         title: String!
         author: String!
     }
+
+    type TODOAPIData {
+        id: ID!, 
+        todo: String,
+        completed: Boolean,
+        userId: Int,
+    }
     
     type Query {
         book(id: ID!): Book
         books: [Book!]!
+        getTODOAPIData: [TODOAPIData!]!
     }
 
     type Mutation {

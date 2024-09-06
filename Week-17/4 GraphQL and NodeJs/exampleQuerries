@@ -29,3 +29,9 @@ mutation UpdateMutation {
     author
   }
 }
+
+query GetTODOAPIData {
+  getTODOAPIData {
+    todo,completed
+  }
+}

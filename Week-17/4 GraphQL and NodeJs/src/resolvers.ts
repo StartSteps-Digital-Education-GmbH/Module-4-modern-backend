@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 interface Book {
     id: string;
     title: string;
@@ -25,6 +26,16 @@ export const resolvers = {
     Query: {
         book: (_, {id}: {id: string}): Book| undefined => (books.find((book) => book.id === id)),
         books: (): Book[] => books,
+        getTODOAPIData: async () => {
+            try {
+                const response = await fetch("https://dummyjson.com/todos");
+                const data = await response.json();
+                return data.todos;
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        },
     },
     Mutation: {
         addBook:(_, {title, author}: {title: string, author: string}): Book => {
