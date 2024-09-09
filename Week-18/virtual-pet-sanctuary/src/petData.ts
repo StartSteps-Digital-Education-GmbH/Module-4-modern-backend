@@ -12,12 +12,12 @@ let pets: Pet[] = [
     { id: 2, name: 'Buddy', species: 'Dog', happiness: 60 }
   ];
 
-  //CRUD opperation
-export const getPets = () => pets; //all pets
+//CRUD opperation
+const getPets = () => pets; //all pets
 
-export const getPet = (id: number) => pets.find(pet => pet.id === id);
+const getPet = (id: number) => pets.find(pet => pet.id === id);
 
-export const createPet = ({name, species, ...rest}: Omit<Pet, 'id' | 'happiness'>) => {
+const createPet = ({name, species, ...rest}: Omit<Pet, 'id' | 'happiness'>) => {
     const newPet = {
         id: pets.length + 1,
         name,
@@ -29,7 +29,7 @@ export const createPet = ({name, species, ...rest}: Omit<Pet, 'id' | 'happiness'
     return newPet;
 }
 
-export const updatePetHappiness = (id: number, happiness: number) => {
+const updatePetHappiness = (id: number, happiness: number) => {
     const pet = pets.find(pet => pet.id === id); //undefined if not found
     if (pet) {
         pet.happiness = happiness;
@@ -38,7 +38,7 @@ export const updatePetHappiness = (id: number, happiness: number) => {
     return null;
 }
 
-export const deletePet = (id: number) => {
+const deletePet = (id: number) => {
     const petIndex = pets.findIndex(pet => pet.id === id); // if not found -1
     if (petIndex >= 0) {
         const pet = pets[petIndex];
@@ -46,5 +46,13 @@ export const deletePet = (id: number) => {
         return pet;
     }
     return null;
+}
+
+export default {
+    getPets,
+    getPet,
+    createPet,
+    updatePetHappiness,
+    deletePet
 }
 
