@@ -10,12 +10,12 @@ export interface Book {
     title: string;
     author: string;
     genre:  Genre;
-    date: Date;
+    publishedDate: Date;
 }
 
 export type BookInput = {
     title: string;
     author: string;
     genre: Genre;
-    date: Date;
+    publishedDate: Date;
 }

@@ -1,3 +1,4 @@
+import { Book } from "./types";
 const books: Book[] = [
     {
         id: "1",

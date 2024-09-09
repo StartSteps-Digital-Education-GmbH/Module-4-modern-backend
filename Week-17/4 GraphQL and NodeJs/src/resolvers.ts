@@ -31,8 +31,17 @@ const dateScalar = new GraphQLScalarType({
 export const resolvers = {
     Date: dateScalar,
     Query: {
-        book: (_, {id}: {id: string}): Book| undefined => (books.find((book) => book.id === id)),
-        books: (): Book[] => books,
+        book: (_, {id}: {id: string}): Book| undefined => {
+            const book: Book = books.find((book) => book.id === id)
+            const day = book.publishedDate.getDay(); // we can use this as we are saving data as "new Date" object in parseValue
+            return book;
+        }
+            
+            ,
+        books: (): Book[] => {
+            console.log(books)
+            return books;
+        },
         getTODOAPIData: async () => {
             try {
                 const response = await fetch("https://dummyjson.com/todos");
@@ -47,14 +56,14 @@ export const resolvers = {
     Mutation: {
         addBook:(_, props: {input: BookInput} ): Book => {
             const {input} = props;
-            const {title, author, genre, date} = input;
-            console.log("date:", date)
+            const {title, author, genre, publishedDate} = input;
+            console.log("date:", publishedDate)
             const newBook = {
                 id: String(books.length + 1),
                 title, //title: title
                 author,
                 genre,
-                date,
+                publishedDate,
             }
             books.push(newBook);
             return newBook;

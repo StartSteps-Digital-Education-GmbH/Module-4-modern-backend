@@ -23,7 +23,7 @@ const typeDefs = gql`
         title: String!
         author: String!
         genre: Genre
-        date: Date
+        publishedDate: Date
     }
 
     type TODOAPIData {
