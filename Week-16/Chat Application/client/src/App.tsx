@@ -6,6 +6,8 @@ import React from 'react';
 import styles from './styles/App.module.css'
 
 function App() {
+    //all state variables here
+    //socket.on here as well
     const { socket, userName, setUserName } = useSocket(); //use useContext to get value of scket from context
     const [socketId, setSocketId] = useState<string | undefined>("");
 
@@ -35,7 +37,8 @@ function App() {
 
     return (<>
         <div className={styles.container}>
-            <Rooms />
+            <Rooms /> {/* pass the states */}
+            {/* <TaskManger/> */}
             <Messages />
         </div>
     </>

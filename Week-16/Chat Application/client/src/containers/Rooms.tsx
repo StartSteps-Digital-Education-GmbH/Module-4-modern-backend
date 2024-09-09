@@ -3,7 +3,7 @@ import { useSocket } from "../context/socket.context";
 import { EVENTS } from "../config/event";
 
 export const Rooms = () => {
-    const { socket, rooms, roomId } = useSocket();
+    const { socket, rooms, roomId } = useSocket(); 
     const newRoomRef = useRef<HTMLInputElement>(null);
     const handleCreateRoom = () => {
         const roomName = newRoomRef.current?.value || "";
