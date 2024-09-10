@@ -1,0 +1,30 @@
+query ExampleQuery {
+  pets{
+    name,
+    id,
+    species,
+    happiness
+  }
+  pet(id: 3){
+    name
+  }
+}
+
+mutation CreateExample {
+  createPet(pet: {name: "moco2",species: "cat", color: "black & white"}) {
+    id,
+    name,
+    species,
+    color,
+    happiness
+  }
+  updatePetHappiness(id: 2, happiness: 70) {
+    id,
+    name,
+    happiness
+  }
+  deletePet(id: 1) {
+    name,
+    id
+  }
+}

@@ -1,11 +1,4 @@
-interface Pet{
-    id: number;
-    name: string;
-    species: string;
-    happiness: number;
-    color?: string;
-    size?: string;
-}
+import {Pet, PetInput} from './types.js';
 
 let pets: Pet[] = [
     { id: 1, name: 'Fluffy', species: 'Cat', happiness: 50 },
@@ -17,7 +10,7 @@ const getPets = () => pets; //all pets
 
 const getPet = (id: number) => pets.find(pet => pet.id === id);
 
-const createPet = ({name, species, ...rest}: Omit<Pet, 'id' | 'happiness'>) => {
+const createPet = ({name, species, ...rest}: PetInput) => {
     const newPet = {
         id: pets.length + 1,
         name,
