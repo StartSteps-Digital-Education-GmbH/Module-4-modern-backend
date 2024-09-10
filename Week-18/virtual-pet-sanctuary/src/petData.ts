@@ -9,7 +9,7 @@ interface Pet{
 
 let pets: Pet[] = [
     { id: 1, name: 'Fluffy', species: 'Cat', happiness: 50 },
-    { id: 2, name: 'Buddy', species: 'Dog', happiness: 60 }
+    { id: 2, name: 'Buddy', species: 'Dog', happiness: 60 },
   ];
 
 //CRUD opperation
