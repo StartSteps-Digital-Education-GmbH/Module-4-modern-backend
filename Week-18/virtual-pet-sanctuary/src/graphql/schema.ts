@@ -10,6 +10,7 @@ const schema = gql`
     }
     type Query {
         pets: [Pet!]!
+        pet(id: ID!): Pet
     }
     `;
 
