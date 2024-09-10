@@ -1,5 +1,6 @@
 import { Router } from "express";
 import petController from "./controller.js";
+import petMiddleware from "./middleware.js";
 
 const router = Router()
 
@@ -7,8 +8,8 @@ const router = Router()
 
 router.get("/", petController.getPets);
 router.get('/:id',petController.getPet);
-router.post('/', petController.createPet); 
-router.patch('/:id', petController.updatePetHappiness);
+router.post('/', petMiddleware.createPet,petController.createPet); 
+router.patch('/:id', petMiddleware.updatePetHappiness, petController.updatePetHappiness);
 router.delete('/:id', petController.deletePet);
 
 export default router;

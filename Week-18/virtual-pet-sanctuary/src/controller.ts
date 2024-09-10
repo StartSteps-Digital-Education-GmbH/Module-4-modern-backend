@@ -16,12 +16,7 @@ const getPet = (req:Request, res:Response) => {
 }
 
 const createPet = (req:Request, res:Response) => {
-    const { name, species, color, size } = req.body;
-    if (!name || !species) { //TODO: validation middleware
-        res.status(400).send('Name and species are required');
-        return;
-    }
-    const newPet = petModule.createPet({name, species, color, size});
+    const newPet = petModule.createPet(req.body);
     res.json(newPet);
 };
 

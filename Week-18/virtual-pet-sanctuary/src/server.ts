@@ -19,6 +19,6 @@ app.use('/api/pets', router);
 
 const httpServer = createServer(app)
 
-httpServer.listen({ port }, () => {
+httpServer.listen({port}, () => {
     console.log(`Server ready at http://localhost:${port}`)
 })
