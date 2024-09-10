@@ -17,7 +17,17 @@ const updatePetHappiness = (req:Request, res:Response, next:Function) => {
     next();
 }
 
+const auth = (req:Request, res:Response, next:Function) => {
+    //authintication with bearer token
+    if (req.headers.authorization !== 'Bearer testPassword123') {
+        res.status(401).send('Unauthorized');
+        return;
+    }
+    next();
+}
+
 export default {
     createPet,
-    updatePetHappiness
+    updatePetHappiness,
+    auth
 }
