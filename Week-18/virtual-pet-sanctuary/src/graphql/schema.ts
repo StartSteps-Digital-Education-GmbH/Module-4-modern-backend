@@ -23,6 +23,10 @@ const schema = gql`
         updatePetHappiness(id: ID!, happiness: Int!): Pet
         deletePet(id: ID!): Pet
     }
+    type Subscription {
+        petHappinessUpdated: Pet
+        petDeletedUpdates: Pet
+    }
     `;
 
 export default schema;

@@ -9,7 +9,6 @@ let pets: Pet[] = [
 const getPets = () => pets; //all pets
 
 const getPet = (id: number) => pets.find(pet => pet.id === id);
-
 const createPet = ({name, species, ...rest}: PetInput) => {
     const newPet = {
         id: pets.length + 1,
